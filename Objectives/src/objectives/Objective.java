@@ -27,4 +27,5 @@ public abstract class Objective implements Comparable {
     public int compareTo(Object o) {
         return compareTo((Objective) o);
     }
+    public abstract boolean equals(Object o);//This is needed for stuff like ArrayLists and sorting and crap
 }

@@ -9,8 +9,7 @@ import java.util.ArrayList;
  *
  * @author leijurv
  */
-public abstract class BaseObjective extends Objective {
-    protected ArrayList<MultiObjective> parentObjectives; // all parent objectives must be multiobjectives
+public abstract class BaseObjective extends ChildObjective {
     protected long lastUpdate;
     protected long updatePeriod;
     protected boolean currentlyCalculating;
@@ -21,15 +20,6 @@ public abstract class BaseObjective extends Objective {
             recalculateDiff();
         }
         return difficulty;
-    }
-    @Override
-    public double getPriority() {
-        double sum = 0;
-        for (MultiObjective mo : parentObjectives) {
-            sum += mo.getPriority(this);
-        }
-        priority = sum;
-        return super.getPriority();
     }
     private void recalculateDiff() {
         lastUpdate = System.currentTimeMillis();

@@ -10,6 +10,18 @@ import java.util.ArrayList;
  * @author leijurv
  */
 public abstract class MultiObjective extends Objective {
-    ArrayList<Objective> childObjectives;
-    public abstract double getPriority(Objective o);//Get how much of my priority is allocated for o. If o is not in childObjectives, return 0
+    protected final ArrayList<ChildObjective> childObjectives;
+    public MultiObjective(ArrayList<ChildObjective> childObjectives) {
+        this.childObjectives = childObjectives;
+    }
+    public abstract double getPriority(ChildObjective o);//Get how much of my priority is allocated for o. If o is not in childObjectives, return 0
+    @Override
+    public double getDifficulty() {
+        double sum = 0;
+        for (Objective child : childObjectives) {
+            sum += child.getDifficulty();
+        }
+        difficulty = sum;
+        return super.getDifficulty();
+    }
 }
