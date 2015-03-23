@@ -1,19 +1,23 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package objectives;
-import java.util.ArrayList;
 /**
  *
  * @author leijurv
  */
 public abstract class BaseObjective extends ChildObjective {
-    protected long lastUpdate;
-    protected long updatePeriod;
-    protected boolean currentlyCalculating;
-    protected abstract double calculateDifficulty(); // is abstract. Function can be called by anyone, but it might take a while
+    protected long lastUpdate = -1;
+    protected final long updatePeriod;
+    protected volatile boolean currentlyCalculating;
+    public BaseObjective(long updatePeriod) {
+        this.updatePeriod = updatePeriod;
+        currentlyCalculating = false;
+    }
+    /**
+     * Calculate the difficulty for this objective. Is called in a separate
+     * thread, so it can take as long as it needs
+     *
+     * @return the calculated difficulty
+     */
+    protected abstract double calculateDifficulty();
     @Override
     public double getDifficulty() {
         if (System.currentTimeMillis() > lastUpdate + updatePeriod && !currentlyCalculating) {

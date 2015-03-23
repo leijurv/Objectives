@@ -1,18 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package objectives;
 import java.util.ArrayList;
 /**
  *
  * @author leijurv
  */
-public class TopLevelObjective extends Objective {
+public class TopLevelObjective extends Objective implements Parent {
     private MultiObjective child;
     public TopLevelObjective(ArrayList<ChildObjective> toDo, double priority) {
         child = new SimpleEqualMultiObjective(toDo);
+        child.registerParent(this);
         this.priority = priority;
     }
     @Override
@@ -21,5 +17,16 @@ public class TopLevelObjective extends Objective {
             return ((TopLevelObjective) o).child.equals(child);
         }
         return false;
+    }
+    @Override
+    public double getPriority(ChildObjective o) {
+        if (o.equals(child)) {
+            return priority;
+        }
+        return 0;
+    }
+    @Override
+    public boolean hasChild(ChildObjective child) {
+        return child.equals(this.child);
     }
 }

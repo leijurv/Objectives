@@ -1,9 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package objectives;
+import java.util.ArrayList;
 /**
  *
  * @author leijurv
@@ -13,6 +9,14 @@ public class Objectives {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        createParent(AquireItemObjective.getAquireItemObjective(1, 2, true), 1);
+        createParent(AquireItemObjective.getAquireItemObjective(1, 3, true), 2);
+        createParent(AquireItemObjective.getAquireItemObjective(1, 4, true), 1.5);
+        System.out.println(Claim.getHighestPriorityClaim(1));
+    }
+    public static void createParent(ChildObjective o, double priority) {
+        ArrayList<ChildObjective> toDo = new ArrayList<>();
+        toDo.add(o);
+        TopLevelObjective main = new TopLevelObjective(toDo, priority);
     }
 }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package objectives;
 /**
  *
@@ -18,7 +13,7 @@ public abstract class Objective implements Comparable {
         return priority;
     }
     public double getAdjustedPriority() {
-        return priority / difficulty;
+        return getPriority() / getDifficulty();
     }
     public int compareTo(Objective o) {
         return new Double(getAdjustedPriority()).compareTo(o.getAdjustedPriority());
