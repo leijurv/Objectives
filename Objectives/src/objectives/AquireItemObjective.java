@@ -1,14 +1,16 @@
 package objectives;
 import java.util.HashMap;
+import java.util.ArrayList;
 /**
  *
  * @author leijurv
  */
-public class AquireItemObjective extends ChildObjective {
+public class AquireItemObjective extends HighPriorityMultiOrObjective {
     final int itemID;
     final int amount;
     final Claim claim;
     private AquireItemObjective(int itemID, int amount) {
+        super(howToGet(itemID, amount));
         this.itemID = itemID;
         this.amount = amount;
         claim = new Claim(this);
@@ -33,12 +35,28 @@ public class AquireItemObjective extends ChildObjective {
         statics.put(itemID, o);
         return o;
     }
-    @Override
-    public boolean equals(Object o) {
-        return hashCode() == o.hashCode();//I can't call super.equals, but this is what Object.equals does so I guess it's the same thing
-    }
     public double getDifficulty() {
-        return 1 - getCompletionPercentage();
+        System.out.println("Aquiring");
+        return (1 - getCompletionPercentage()) * super.getDifficulty();
+    }
+    public static ArrayList<ChildObjective> howToGet(int itemID, int amount) {
+        ArrayList<ChildObjective> possibilities = new ArrayList<>();
+        switch (itemID) {
+            case 1:
+                possibilities.add(new CraftItemObjective(itemID, amount, new int[][] {{3, 1}}));
+                break;
+            case 3:
+                break;
+            case 5:
+                System.out.println("crafting table");
+                possibilities.add(new CraftItemObjective(itemID, amount, new int[][] {{1, 4}}));
+                break;
+            case 7:
+                System.out.println("catss");
+                possibilities.add(new CraftItemObjective(itemID, amount, new int[][] {{1, 4}, {3, 1}, {5, 1}}));
+                break;
+        }
+        return possibilities;
     }
     public double getCompletionPercentage() {
         return ((double) claim.getAmountCompleted()) / ((double) amount);

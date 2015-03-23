@@ -20,19 +20,23 @@ public abstract class BaseObjective extends ChildObjective {
     protected abstract double calculateDifficulty();
     @Override
     public double getDifficulty() {
-        if (System.currentTimeMillis() > lastUpdate + updatePeriod && !currentlyCalculating) {
+        if (System.currentTimeMillis() > lastUpdate + updatePeriod) {
             recalculateDiff();
         }
         return difficulty;
     }
-    private void recalculateDiff() {
-        lastUpdate = System.currentTimeMillis();
-        currentlyCalculating = true;
-        new Thread() {
-            public void run() {
-                difficulty = calculateDifficulty();
-                currentlyCalculating = false;
-            }
-        }.start();
+    public void recalculateDiff() {
+        if (!currentlyCalculating) {
+            lastUpdate = System.currentTimeMillis();
+            currentlyCalculating = true;
+            final String abcd = toString();
+            new Thread() {
+                public void run() {
+                    difficulty = calculateDifficulty();
+                    System.out.println("Recalculated diff for" + abcd + " as " + difficulty);
+                    currentlyCalculating = false;
+                }
+            }.start();
+        }
     }
 }

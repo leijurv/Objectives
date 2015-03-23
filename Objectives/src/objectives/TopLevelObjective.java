@@ -4,8 +4,9 @@ import java.util.ArrayList;
  *
  * @author leijurv
  */
-public class TopLevelObjective extends Objective implements Parent {
-    private MultiObjective child;
+public class TopLevelObjective implements Parent {
+    private final MultiObjective child;
+    private final double priority;
     public TopLevelObjective(ArrayList<ChildObjective> toDo, double priority) {
         child = new SimpleEqualMultiObjective(toDo);
         child.registerParent(this);

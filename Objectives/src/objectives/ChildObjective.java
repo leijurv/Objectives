@@ -38,4 +38,6 @@ public abstract class ChildObjective extends Objective {
             parentObjectives.add(parent);
         }
     }
+    @Override
+    public abstract double getDifficulty();
 }
