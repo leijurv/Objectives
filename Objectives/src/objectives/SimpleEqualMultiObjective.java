@@ -10,7 +10,7 @@ public class SimpleEqualMultiObjective extends MultiAndObjective {
     }
     @Override
     public double getPriority(ChildObjective o) {
-        System.out.println(this + "is calculating priority for child" + o);
+        //System.out.println(this + "is calculating priority for child" + o);
         if (hasChild(o)) {
             return getPriority() * 1 / ((double) childObjectives.size());//Divvy up equally
         }

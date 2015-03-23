@@ -14,7 +14,7 @@ public abstract class ChildObjective extends Objective {
     @Override
     public double getPriority() {
         double sum = 0;
-        System.out.println(this + " is calculating priority from parents " + parentObjectives);
+        //System.out.println(this + " is calculating priority from parents " + parentObjectives);
         synchronized (parentObjectives) {
             for (Parent mo : parentObjectives) {
                 System.out.println(mo.getPriority(this));

@@ -22,7 +22,8 @@ public class Claim implements Comparable {
     @Override
     public int compareTo(Object o) {
         System.out.println("Comparing " + this + " to " + o);
-        return new Double(objective.getPriority()).compareTo(((Claim) o).objective.getPriority());//Compare priorities not adjusted priorities
+        return new Double(objective.getPriority()).compareTo(((Claim) o).objective.getPriority());
+        //Compare priorities not adjusted priorities, because adjusted priorities are derived from completion percentage
     }
     public int getAmountCompleted() {
         return completion;
@@ -52,6 +53,7 @@ public class Claim implements Comparable {
         if (possibilities == null) {
             return null;
         }
+        System.out.println(possibilities);
         possibilities.sort(null);//sort(null) works because Claim implements Comparable
         return possibilities.get(possibilities.size() - 1);
     }
