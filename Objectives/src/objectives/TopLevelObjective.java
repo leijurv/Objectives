@@ -10,6 +10,7 @@ public class TopLevelObjective implements Parent {
     public TopLevelObjective(ArrayList<ChildObjective> toDo, double priority) {
         child = new SimpleEqualMultiObjective(toDo);
         child.registerParent(this);
+        child.calculatePriority();
         this.priority = priority;
     }
     @Override

@@ -13,6 +13,7 @@ public abstract class Objective implements Comparable {
     public double getPriority() {
         return priority;
     }
+    public abstract double calculatePriority();
     public double getAdjustedPriority() {
         return getPriority() / getDifficulty();
     }

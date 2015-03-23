@@ -35,6 +35,7 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
         statics.put(itemID, o);
         return o;
     }
+    @Override
     public double getDifficulty() {
         System.out.println("Aquiring");
         return (1 - getCompletionPercentage()) * super.getDifficulty();

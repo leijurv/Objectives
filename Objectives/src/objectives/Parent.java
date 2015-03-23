@@ -16,7 +16,7 @@ public interface Parent {
      * @param o The child in question
      * @return How much priority is allocated for that child
      */
-    public abstract double getPriority(ChildObjective o);
+    public double getPriority(ChildObjective o);
     /**
      * Do I have this child
      *

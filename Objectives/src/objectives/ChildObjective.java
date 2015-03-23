@@ -7,22 +7,22 @@ import java.util.ArrayList;
 public abstract class ChildObjective extends Objective {
     private final ArrayList<Parent> parentObjectives = new ArrayList<>(); // all parent objectives must be multiobjectives
     /**
-     * Sum up the priority allocated to me by all my parents
+     * Recalculate my priority. My priority is the sum of all the priority
+     * allocated to me by my parent objectives.
      *
-     * @return the summed priority
+     * @return the new priority
      */
     @Override
-    public double getPriority() {
+    public double calculatePriority() {
         double sum = 0;
         //System.out.println(this + " is calculating priority from parents " + parentObjectives);
         synchronized (parentObjectives) {
-            for (Parent mo : parentObjectives) {
-                System.out.println(mo.getPriority(this));
-                sum += mo.getPriority(this);
+            for (Parent parent : parentObjectives) {
+                sum += parent.getPriority(this);
             }
         }
         priority = sum;
-        return super.getPriority();
+        return priority;
     }
     /**
      * register a parent objective. Called in the MultiObjective constructor for

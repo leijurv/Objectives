@@ -13,6 +13,26 @@ public abstract class MultiObjective extends ChildObjective implements Parent {
         }
     }
     /**
+     * We need to notify all children to recalculate priority when our priority
+     * changes
+     *
+     *
+     * @return the new priority
+     */
+    @Override
+    public double calculatePriority() {
+        super.calculatePriority();
+        for (ChildObjective child : childObjectives) {
+            new Thread() {
+                @Override
+                public void run() {
+                    child.calculatePriority();
+                }
+            }.start();
+        }
+        return priority;
+    }
+    /**
      * Get the difficulty of the objectives
      *
      * @return the difficulty
