@@ -35,10 +35,7 @@ public class AquireItemObjective extends ChildObjective {
     }
     @Override
     public boolean equals(Object o) {
-        if (o instanceof AquireItemObjective) {
-            return ((AquireItemObjective) o).itemID == itemID && ((AquireItemObjective) o).amount == amount;
-        }
-        return false;
+        return hashCode() == o.hashCode();//I can't call super.equals, but this is what Object.equals does so I guess it's the same thing
     }
     public double getDifficulty() {
         return 1 - getCompletionPercentage();
