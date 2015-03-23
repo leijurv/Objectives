@@ -1,21 +1,27 @@
 package objectives;
+
 import java.util.HashMap;
 import java.util.ArrayList;
+
 /**
  *
  * @author leijurv
  */
 public class AquireItemObjective extends HighPriorityMultiOrObjective {
+
     final int itemID;
     final int amount;
     final Claim claim;
+
     private AquireItemObjective(int itemID, int amount) {
         super(howToGet(itemID, amount));
         this.itemID = itemID;
         this.amount = amount;
         claim = new Claim(this);
     }
+
     private static final HashMap<Integer, AquireItemObjective> statics = new HashMap<>();
+
     /**
      *
      * @param itemID the item id
@@ -35,11 +41,13 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
         statics.put(itemID, o);
         return o;
     }
+
     @Override
     public double getDifficulty() {
         System.out.println("Aquiring");
         return (1 - getCompletionPercentage()) * super.getDifficulty();
     }
+
     public static ArrayList<ChildObjective> howToGet(int itemID, int amount) {
         ArrayList<ChildObjective> possibilities = new ArrayList<>();
         switch (itemID) {
@@ -59,7 +67,9 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
         }
         return possibilities;
     }
+
     public double getCompletionPercentage() {
         return ((double) claim.getAmountCompleted()) / ((double) amount);
     }
+
 }
