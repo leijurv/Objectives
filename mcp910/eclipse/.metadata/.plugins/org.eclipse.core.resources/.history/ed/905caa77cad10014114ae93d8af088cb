@@ -48,7 +48,7 @@ public class MovementObjective extends BaseObjective {
         if (withinRange) {
             XDiff -= 4;
         }
-        return (Math.sqrt(XDiff * XDiff + ZDiff * ZDiff) - YDiff) * MC_WALKING_SPEED + YDiff * MC_STAIR_ASCENDING_SPEED;
+        return (Math.sqrt(XDiff * XDiff + (ZDiff * ZDiff) - YDiff)) / MC_WALKING_SPEED + YDiff * MC_STAIR_ASCENDING_SPEED;
     }
     @Override
     public boolean equals(Object o) {

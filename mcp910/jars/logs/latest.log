@@ -8,3 +8,41 @@
 [18:39:41] [Thread-5/INFO]: OpenAL initialized.
 [18:39:41] [Sound Library Loader/INFO]: Sound engine started
 [18:39:53] [Client thread/INFO]: Created: 512x512 textures-atlas
+[18:43:05] [Server thread/INFO]: Starting integrated minecraft server version 1.8
+[18:43:05] [Server thread/INFO]: Generating keypair
+[18:43:05] [Server thread/INFO]: Converting map!
+[18:43:05] [Server thread/INFO]: Scanning folders...
+[18:43:05] [Server thread/INFO]: Total conversion count is 0
+[18:43:06] [Server thread/INFO]: Preparing start region for level 0
+[18:43:07] [Server thread/INFO]: Preparing spawn area: 7%
+[18:43:08] [Server thread/INFO]: Preparing spawn area: 15%
+[18:43:09] [Server thread/INFO]: Preparing spawn area: 28%
+[18:43:10] [Server thread/INFO]: Preparing spawn area: 41%
+[18:43:11] [Server thread/INFO]: Preparing spawn area: 53%
+[18:43:12] [Server thread/INFO]: Preparing spawn area: 64%
+[18:43:13] [Server thread/INFO]: Preparing spawn area: 81%
+[18:43:14] [Server thread/INFO]: Changing view distance to 12, from 10
+[18:43:15] [Server thread/INFO]: Player321[local:E:dbb92f7b] logged in with entity id 94 at (6.5, 62.0, 46.5)
+[18:43:15] [Server thread/INFO]: Player321 joined the game
+[18:43:35] [Server thread/INFO]: Saving and pausing game...
+[18:43:35] [Server thread/INFO]: Saving chunks for level 'New World'/Overworld
+[18:43:36] [Server thread/INFO]: Saving chunks for level 'New World'/Nether
+[18:43:36] [Server thread/INFO]: Saving chunks for level 'New World'/The End
+[18:43:39] [Client thread/INFO]: Started on 62970
+[18:43:39] [Client thread/INFO]: [CHAT] Local game hosted on port 62970
+[18:43:49] [Client thread/INFO]: [CHAT] Unknown command. Try /help for a list of commands
+[18:43:51] [Server thread/INFO]: [Player321: Set own game mode to Creative Mode]
+[18:43:51] [Client thread/INFO]: [CHAT] Your game mode has been updated
+[18:44:24] [Server thread/INFO]: <Player321> 24, 70, 22
+[18:44:24] [Client thread/INFO]: [CHAT] <Player321> 24, 70, 22
+[18:44:44] [Server thread/INFO]: <Player321> 34, 46, 32
+[18:44:44] [Client thread/INFO]: [CHAT] <Player321> 34, 46, 32
+[18:44:47] [Client thread/INFO]: [CHAT] Usage: /fill <x1> <y1> <z1> <x2> <y2> <z2> <TileName> [dataValue] [oldBlockHandling] [dataTag]
+[18:45:04] [Client thread/INFO]: [CHAT] There is no such item with name minecraft:0
+[18:45:06] [Server thread/INFO]: [Player321: 2497 blocks filled]
+[18:45:06] [Client thread/INFO]: [CHAT] 2497 blocks filled
+[18:45:15] [Server thread/INFO]: Player321 has just earned the achievement [Taking Inventory]
+[18:45:15] [Client thread/INFO]: [CHAT] Player321 has just earned the achievement [Taking Inventory]
+[18:54:18] [Server thread/INFO]: [Player321: Set the time to 0]
+[18:54:18] [Client thread/INFO]: [CHAT] Set the time to 0
+[19:23:27] [LanServerPinger #1/WARN]: LanServerPinger: No route to host
