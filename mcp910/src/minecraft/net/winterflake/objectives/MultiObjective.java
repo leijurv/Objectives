@@ -22,7 +22,8 @@ public abstract class MultiObjective extends ChildObjective implements Parent {
     @Override
     public double calculatePriority() {
         super.calculatePriority();
-        for (ChildObjective child : childObjectives) {
+        for (int i=0; i<childObjectives.size(); i++) {
+        	final ChildObjective child=childObjectives.get(i);
             new Thread() {
                 @Override
                 public void run() {
