@@ -1,4 +1,8 @@
 package net.winterflake.objectives;
+
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+
 /**
  *
  * @author leijurv
@@ -8,8 +12,7 @@ public class GetToCraftingTableObjective extends ChildObjective implements Paren
     private AquireItemObjective craftingtable;
     public GetToCraftingTableObjective() {
         if (!hasCraftingTable) {
-            System.out.println("not has");
-            craftingtable = AquireItemObjective.getAquireItemObjective(5, 1, false);
+            craftingtable = AquireItemObjective.getAquireItemObjective(new ItemStack(Blocks.crafting_table,1), false);
         }
     }
     @Override

@@ -1,16 +1,27 @@
 package net.winterflake.objectives;
 import java.util.ArrayList;
+
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 /**
  *
  * @author leijurv
  */
 public class MineBlockWithTool extends MultiAndObjective {
-    public MineBlockWithTool(int x, int y, int z, int itemID) {
-        super(create(x, y, z, itemID));
+	final int x;
+	final int y;
+	final int z;
+	final Item itemType;
+    public MineBlockWithTool(int x, int y, int z, Item itemType) {
+        super(create(x, y, z, itemType));
+        this.x=x;
+        this.y=y;
+        this.z=z;
+        this.itemType=itemType;
     }
-    public static ArrayList<ChildObjective> create(int x, int y, int z, int itemID) {
+    public static ArrayList<ChildObjective> create(int x, int y, int z, Item itemType) {
         ArrayList<ChildObjective> res = new ArrayList<>();
-        AquireItemObjective item = AquireItemObjective.getAquireItemObjective(itemID, 1, false);
+        AquireItemObjective item = AquireItemObjective.getAquireItemObjective(new ItemStack(itemType,1), false);
         res.add(item);//Aquire the tool needed
         res.add(new MovementObjective(10000, x, y, z, true));
         res.add(new LookAtBlockObjective(x, y, z));

@@ -1,6 +1,9 @@
 package net.winterflake.objectives;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 /**
  * An AquireItemObjective can "claim" an item as soon as it comes into the
  * inventory
@@ -8,15 +11,13 @@ import java.util.HashMap;
  * @author leijurv
  */
 public class Claim implements Comparable {
-    final int itemID;
-    final int amount;
+    final ItemStack item;
     final AquireItemObjective objective;
     private volatile int completion;
-    static HashMap<Integer, ArrayList<Claim>> claimList = new HashMap<>();
+    static HashMap<Item, ArrayList<Claim>> claimList = new HashMap<>();
     public Claim(AquireItemObjective obj) {
         objective = obj;
-        itemID = obj.itemID;
-        amount = obj.amount;
+        item=obj.item;
         registerClaim(this);
     }
     @Override
@@ -37,10 +38,10 @@ public class Claim implements Comparable {
      * @param claim the claim to register
      */
     public static void registerClaim(Claim claim) {
-        if (claimList.get(claim.itemID) == null) {
-            claimList.put(claim.itemID, new ArrayList<Claim>());
+        if (claimList.get(claim.item.getItem()) == null) {
+            claimList.put(claim.item.getItem(), new ArrayList<Claim>());
         }
-        claimList.get(claim.itemID).add(claim);
+        claimList.get(claim.item.getItem()).add(claim);
     }
     /**
      * Get the claim with the highest priority in the queue for the given itemID
@@ -74,6 +75,6 @@ public class Claim implements Comparable {
         return true;
     }
     public String toString() {
-        return itemID + "-" + amount + "$" + objective.getAdjustedPriority();
+        return item + "$" + objective.getAdjustedPriority();
     }
 }
