@@ -37,7 +37,7 @@ public class MovementInputFromOptions extends MovementInput
             --this.moveStrafe;
         }
 
-        this.jump = this.gameSettings.keyBindJump.getIsKeyPressed();
+        this.jump = this.gameSettings.keyBindJump.getIsKeyPressed() || true;
         this.sneak = this.gameSettings.keyBindSneak.getIsKeyPressed();
 
         if (this.sneak)
