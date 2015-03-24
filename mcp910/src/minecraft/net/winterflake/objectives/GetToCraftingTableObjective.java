@@ -9,7 +9,8 @@ public class GetToCraftingTableObjective extends ChildObjective implements Paren
     public GetToCraftingTableObjective() {
         if (!hasCraftingTable) {
             System.out.println("not has");
-            craftingtable = AquireItemObjective.getAquireItemObjective(5, 1, false);
+            
+            //craftingtable = AquireItemObjective.getAquireItemObjective(5, 1, false);
         }
     }
     @Override

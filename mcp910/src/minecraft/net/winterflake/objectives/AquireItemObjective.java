@@ -3,24 +3,25 @@ package net.winterflake.objectives;
 import java.util.HashMap;
 import java.util.ArrayList;
 
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+
 /**
  *
  * @author leijurv
  */
 public class AquireItemObjective extends HighPriorityMultiOrObjective {
 
-    final int itemID;
-    final int amount;
+    final ItemStack item;
     final Claim claim;
 
-    private AquireItemObjective(int itemID, int amount) {
-        super(howToGet(itemID, amount));
-        this.itemID = itemID;
-        this.amount = amount;
+    private AquireItemObjective(ItemStack item) {
+        super(howToGet(item));
+        this.item=item;
         claim = new Claim(this);
     }
 
-    private static final HashMap<Integer, AquireItemObjective> statics = new HashMap<Integer, AquireItemObjective>();
+    private static final HashMap<Item, AquireItemObjective> statics = new HashMap<Item, AquireItemObjective>();
 
     /**
      *
@@ -30,15 +31,15 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
      * be used multiple times (like a crafting table)
      * @return
      */
-    public static AquireItemObjective getAquireItemObjective(int itemID, int amount, boolean need) {
+    public static AquireItemObjective getAquireItemObjective(ItemStack item, boolean need) {
         if (need) {
-            return new AquireItemObjective(itemID, amount);
+            return new AquireItemObjective(item);
         }
-        if (statics.get(itemID) != null) {
-            return statics.get(itemID);
+        if (statics.get(item.getItem()) != null) {
+            return statics.get(item.getItem());
         }
-        AquireItemObjective o = new AquireItemObjective(itemID, amount);
-        statics.put(itemID, o);
+        AquireItemObjective o = new AquireItemObjective(item);
+        statics.put(item.getItem(), o);
         return o;
     }
 
@@ -48,28 +49,14 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
         return (1 - getCompletionPercentage()) * super.getDifficulty();
     }
 
-    public static ArrayList<ChildObjective> howToGet(int itemID, int amount) {
+    public static ArrayList<ChildObjective> howToGet(ItemStack item) {
         ArrayList<ChildObjective> possibilities = new ArrayList<ChildObjective>();
-        switch (itemID) {
-            case 1:
-                possibilities.add(new CraftItemObjective(itemID, amount, new int[][] {{3, 1}}));
-                break;
-            case 3:
-                break;
-            case 5:
-                System.out.println("crafting table");
-                possibilities.add(new CraftItemObjective(itemID, amount, new int[][] {{1, 4}}));
-                break;
-            case 7:
-                System.out.println("catss");
-                possibilities.add(new CraftItemObjective(itemID, amount, new int[][] {{1, 4}, {3, 1}, {5, 1}}));
-                break;
-        }
+        
         return possibilities;
     }
 
     public double getCompletionPercentage() {
-        return ((double) claim.getAmountCompleted()) / ((double) amount);
+        return ((double) claim.getAmountCompleted()) / ((double) item.stackSize);
     }
 
 }
