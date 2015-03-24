@@ -38,7 +38,7 @@ public class Claim implements Comparable {
      */
     public static void registerClaim(Claim claim) {
         if (claimList.get(claim.itemID) == null) {
-            claimList.put(claim.itemID, new ArrayList<Claim>());
+            claimList.put(claim.itemID, new ArrayList<>());
         }
         claimList.get(claim.itemID).add(claim);
     }
