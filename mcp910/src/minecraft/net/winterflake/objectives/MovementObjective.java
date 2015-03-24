@@ -1,9 +1,17 @@
 package net.winterflake.objectives;
+
+import net.minecraft.*;
+import net.minecraft.client.Minecraft;
+import net.winterflake.objectives.Objectives;
+
 /**
  *
  * @author leijurv
  */
 public class MovementObjective extends BaseObjective {
+	
+	Minecraft mc = Objectives.mc;
+	
     final double targetX;
     final double targetY;
     final double targetZ;
@@ -31,16 +39,16 @@ public class MovementObjective extends BaseObjective {
     }
     @Override
     protected double calculateDifficulty() {
-        double curX = 5;
-        double curY = 5;
-        double curZ = 5;
+        double curX = mc.thePlayer.posX;
+        double curY = mc.thePlayer.posY;
+        double curZ = mc.thePlayer.posZ;
         double XDiff = Math.abs(curX - targetX);
         double YDiff = Math.abs(curY - targetY);
         double ZDiff = Math.abs(curZ - targetZ);
         if (withinRange) {
             XDiff -= 4;
         }
-        return (Math.sqrt(XDiff * XDiff + ZDiff + ZDiff) - YDiff) * MC_WALKING_SPEED + YDiff * MC_STAIR_ASCENDING_SPEED;
+        return (Math.sqrt(XDiff * XDiff + (ZDiff * ZDiff) - YDiff)) / MC_WALKING_SPEED + YDiff * MC_STAIR_ASCENDING_SPEED;
     }
     @Override
     public boolean equals(Object o) {
