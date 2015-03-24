@@ -5,11 +5,11 @@ import java.util.ArrayList;
  * @author leijurv
  */
 public class SimpleEqualMultiObjective extends MultiAndObjective {
-    public SimpleEqualMultiObjective(ArrayList<ChildObjective> childObjectives) {
+    public SimpleEqualMultiObjective(ArrayList<Objective> childObjectives) {
         super(childObjectives);
     }
     @Override
-    public double getPriority(ChildObjective o) {
+    public double getPriority(Objective o) {
         //System.out.println(this + "is calculating priority for child" + o);
         if (hasChild(o)) {
             return getPriority() * 1 / ((double) childObjectives.size());//Divvy up equally

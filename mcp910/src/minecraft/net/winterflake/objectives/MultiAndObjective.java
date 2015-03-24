@@ -5,7 +5,7 @@ import java.util.ArrayList;
  * @author leijurv
  */
 public abstract class MultiAndObjective extends MultiObjective {
-    public MultiAndObjective(ArrayList<ChildObjective> childObjectives) {
+    public MultiAndObjective(ArrayList<Objective> childObjectives) {
         super(childObjectives);
     }
     /**

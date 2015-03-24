@@ -3,7 +3,7 @@ package net.winterflake.objectives;
  *
  * @author leijurv
  */
-public abstract class BaseObjective extends ChildObjective {
+public abstract class BaseObjective extends Objective {
     protected long lastUpdate = -1;
     protected final long updatePeriod;
     protected volatile boolean currentlyCalculating;

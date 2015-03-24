@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack;
  *
  * @author leijurv
  */
-public class GetToCraftingTableObjective extends ChildObjective implements Parent {
+public class GetToCraftingTableObjective extends Objective implements Parent {
     static boolean hasCraftingTable = false;
     private AquireItemObjective craftingtable;
     public GetToCraftingTableObjective() {
@@ -32,14 +32,14 @@ public class GetToCraftingTableObjective extends ChildObjective implements Paren
         return craftingtable.getDifficulty();
     }
     @Override
-    public double getPriority(ChildObjective o) {
+    public double getPriority(Objective o) {
         if (hasChild(o)) {
             return getPriority();
         }
         return 0;
     }
     @Override
-    public boolean hasChild(ChildObjective child) {
+    public boolean hasChild(Objective child) {
         return craftingtable.equals(child);
     }
 }

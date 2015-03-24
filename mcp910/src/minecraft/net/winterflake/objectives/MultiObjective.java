@@ -4,11 +4,11 @@ import java.util.ArrayList;
  *
  * @author leijurv
  */
-public abstract class MultiObjective extends ChildObjective implements Parent {
-    protected final ArrayList<ChildObjective> childObjectives;
-    public MultiObjective(ArrayList<ChildObjective> childObjectives) {
+public abstract class MultiObjective extends Objective implements Parent {
+    protected final ArrayList<Objective> childObjectives;
+    public MultiObjective(ArrayList<Objective> childObjectives) {
         this.childObjectives = childObjectives;
-        for (ChildObjective child : childObjectives) {
+        for (Objective child : childObjectives) {
             child.registerParent(this);
         }
     }
@@ -23,7 +23,7 @@ public abstract class MultiObjective extends ChildObjective implements Parent {
     public double calculatePriority() {
         super.calculatePriority();
         for (int i=0; i<childObjectives.size(); i++) {
-        	final ChildObjective child=childObjectives.get(i);
+        	final Objective child=childObjectives.get(i);
             new Thread() {
                 @Override
                 public void run() {
@@ -47,7 +47,7 @@ public abstract class MultiObjective extends ChildObjective implements Parent {
      * @return Do I have it
      */
     @Override
-    public boolean hasChild(ChildObjective child) {
+    public boolean hasChild(Objective child) {
         return childObjectives.contains(child);
     }
 }
