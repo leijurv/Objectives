@@ -1888,7 +1888,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
             }
 
             this.mcProfiler.endStartSection("keyboard");
-
+            Objectives.onTick();
             while (Keyboard.next())
             {
                 var1 = Keyboard.getEventKey() == 0 ? Keyboard.getEventCharacter() + 256 : Keyboard.getEventKey();
@@ -2117,7 +2117,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
 
                 while (true)
                 {
-                    if (!this.gameSettings.keyBindAttack.isPressed())
+                    if (!Objectives.isPressed())
                     {
                         while (this.gameSettings.keyBindUseItem.isPressed())
                         {
@@ -2138,7 +2138,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
             }
             else
             {
-                while (this.gameSettings.keyBindAttack.isPressed())
+                while (Objectives.isPressed())
                 {
                     this.clickMouse();
                 }
@@ -2159,7 +2159,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
                 this.rightClickMouse();
             }
 
-            this.sendClickBlockToController(this.currentScreen == null && this.gameSettings.keyBindAttack.getIsKeyPressed() && this.inGameHasFocus);
+            this.sendClickBlockToController(this.currentScreen == null && Objectives.isLeftClick && this.inGameHasFocus);
         }
 
         if (this.theWorld != null)

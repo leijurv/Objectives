@@ -1,6 +1,7 @@
 package net.minecraft.util;
 
 import net.minecraft.client.settings.GameSettings;
+import net.winterflake.objectives.Objectives;
 
 public class MovementInputFromOptions extends MovementInput
 {
@@ -17,7 +18,7 @@ public class MovementInputFromOptions extends MovementInput
         this.moveStrafe = 0.0F;
         this.moveForward = 0.0F;
 
-        if (this.gameSettings.keyBindForward.getIsKeyPressed())
+        if (this.gameSettings.keyBindForward.getIsKeyPressed() || Objectives.forward)
         {
             ++this.moveForward;
         }
@@ -27,7 +28,7 @@ public class MovementInputFromOptions extends MovementInput
             --this.moveForward;
         }
 
-        if (this.gameSettings.keyBindLeft.getIsKeyPressed())
+        if (this.gameSettings.keyBindLeft.getIsKeyPressed() || Objectives.strafe)
         {
             ++this.moveStrafe;
         }
@@ -36,8 +37,7 @@ public class MovementInputFromOptions extends MovementInput
         {
             --this.moveStrafe;
         }
-
-        this.jump = this.gameSettings.keyBindJump.getIsKeyPressed() || true;
+        this.jump = this.gameSettings.keyBindJump.getIsKeyPressed() || Objectives.isJumping;
         this.sneak = this.gameSettings.keyBindSneak.getIsKeyPressed();
 
         if (this.sneak)
