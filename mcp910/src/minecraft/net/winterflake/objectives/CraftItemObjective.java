@@ -15,8 +15,8 @@ public class CraftItemObjective extends MultiAndObjective {
         this.recipe=recipe;
         this.item=item;
     }
-    public static ArrayList<ChildObjective> getRequirements(IRecipe recipe, ItemStack item) {
-        ArrayList<ChildObjective> input = new ArrayList<>();
+    public static ArrayList<Objective> getRequirements(IRecipe recipe, ItemStack item) {
+        ArrayList<Objective> input = new ArrayList<>();
         if (requiresCraftingTable(recipe)) {
             System.out.println("Requires c");
             input.add(new GetToCraftingTableObjective());
@@ -27,7 +27,7 @@ public class CraftItemObjective extends MultiAndObjective {
         return recipe.getRecipeSize() > 4;
     }
     @Override
-    public double getPriority(ChildObjective o) {
+    public double getPriority(Objective o) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

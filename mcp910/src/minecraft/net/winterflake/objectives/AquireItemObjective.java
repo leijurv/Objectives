@@ -24,7 +24,7 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
     private static final HashMap<Item, AquireItemObjective> statics = new HashMap<Item, AquireItemObjective>();
 
     /**
-     *
+     * A static method to create AquireItemObjectives
      * @param itemID the item id
      * @param amount the amount
      * @param need whether the item will be used up (used in crafting), or can
@@ -45,12 +45,11 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
 
     @Override
     public double getDifficulty() {
-        System.out.println("Aquiring");
         return (1 - getCompletionPercentage()) * super.getDifficulty();
     }
 
-    public static ArrayList<ChildObjective> howToGet(ItemStack item) {
-        ArrayList<ChildObjective> possibilities = new ArrayList<ChildObjective>();
+    public static ArrayList<Objective> howToGet(ItemStack item) {
+        ArrayList<Objective> possibilities = new ArrayList<Objective>();
         
         return possibilities;
     }

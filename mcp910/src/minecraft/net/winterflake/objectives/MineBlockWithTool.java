@@ -19,8 +19,8 @@ public class MineBlockWithTool extends MultiAndObjective {
         this.z=z;
         this.itemType=itemType;
     }
-    public static ArrayList<ChildObjective> create(int x, int y, int z, Item itemType) {
-        ArrayList<ChildObjective> res = new ArrayList<>();
+    public static ArrayList<Objective> create(int x, int y, int z, Item itemType) {
+        ArrayList<Objective> res = new ArrayList<>();
         AquireItemObjective item = AquireItemObjective.getAquireItemObjective(new ItemStack(itemType,1), false);
         res.add(item);//Aquire the tool needed
         res.add(new MovementObjective(10000, x, y, z, true));
@@ -29,7 +29,7 @@ public class MineBlockWithTool extends MultiAndObjective {
         return res;
     }
     @Override
-    public double getPriority(ChildObjective o) {
+    public double getPriority(Objective o) {
         //Return getBlock(x,y,z).getAmountofTimetoMineWithTool(itemID)
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

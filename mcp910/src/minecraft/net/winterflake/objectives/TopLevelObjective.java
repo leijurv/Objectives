@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class TopLevelObjective implements Parent {
     private final MultiObjective child;
     private final double priority;
-    public TopLevelObjective(ArrayList<ChildObjective> toDo, double priority) {
+    public TopLevelObjective(ArrayList<Objective> toDo, double priority) {
         child = new SimpleEqualMultiObjective(toDo);
         child.registerParent(this);
         child.calculatePriority();
@@ -21,14 +21,14 @@ public class TopLevelObjective implements Parent {
         return false;
     }
     @Override
-    public double getPriority(ChildObjective o) {
+    public double getPriority(Objective o) {
         if (o.equals(child)) {
             return priority;
         }
         return 0;
     }
     @Override
-    public boolean hasChild(ChildObjective child) {
+    public boolean hasChild(Objective child) {
         return child.equals(this.child);
     }
 }

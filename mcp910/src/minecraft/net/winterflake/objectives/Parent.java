@@ -16,12 +16,12 @@ public interface Parent {
      * @param o The child in question
      * @return How much priority is allocated for that child
      */
-    public double getPriority(ChildObjective o);
+    public double getPriority(Objective o);
     /**
      * Do I have this child
      *
      * @param child The child
      * @return Do I have it
      */
-    public boolean hasChild(ChildObjective child);
+    public boolean hasChild(Objective child);
 }

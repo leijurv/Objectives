@@ -5,7 +5,7 @@ import java.util.ArrayList;
  * @author leijurv
  */
 public abstract class MultiOrObjective extends MultiObjective {
-    public MultiOrObjective(ArrayList<ChildObjective> childObjectives) {
+    public MultiOrObjective(ArrayList<Objective> childObjectives) {
         super(childObjectives);
     }
     /**

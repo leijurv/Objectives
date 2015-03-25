@@ -5,13 +5,13 @@ import java.util.ArrayList;
  * @author leijurv
  */
 public class HighPriorityMultiOrObjective extends MultiOrObjective {
-    public HighPriorityMultiOrObjective(ArrayList<ChildObjective> childObjectives) {
+    public HighPriorityMultiOrObjective(ArrayList<Objective> childObjectives) {
         super(childObjectives);
     }
     @Override
-    public double getPriority(ChildObjective o) {
+    public double getPriority(Objective o) {
         double oDiff = o.getDifficulty();
-        for (ChildObjective c : childObjectives) {
+        for (Objective c : childObjectives) {
             if (!c.equals(o)) {
                 if (c.getDifficulty() < oDiff) {
                     return 0;
