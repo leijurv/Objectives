@@ -22,6 +22,7 @@ public class Objectives {
 		leftClickTick++;
 		strafe=(System.currentTimeMillis()/1000)%5==0;
 		forward=(System.currentTimeMillis()/1000)%4==0;
+		mc.thePlayer.rotationYaw= ((((float)(System.currentTimeMillis()))/100F)%(360F));
 	}
 	public static boolean isPressed()
     {
