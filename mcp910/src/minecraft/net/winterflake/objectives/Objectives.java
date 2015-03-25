@@ -11,7 +11,30 @@ import net.minecraft.client.Minecraft;
 public class Objectives {
 
 	static public Minecraft mc;
-	
+	public static boolean isRightClick=false;
+	public static int leftClickTick=0;
+	public static boolean isLeftClick=false;
+	public static boolean isJumping=false;
+	public static boolean strafe=false;
+	public static boolean forward=false;
+	public static void onTick(){
+		if(isLeftClick)
+		leftClickTick++;
+		strafe=(System.currentTimeMillis()/1000)%5==0;
+		forward=(System.currentTimeMillis()/1000)%4==0;
+	}
+	public static boolean isPressed()
+    {
+        if (leftClickTick == 0)
+        {
+            return false;
+        }
+        else
+        {
+            --leftClickTick;
+            return true;
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -29,7 +52,12 @@ public class Objectives {
 			mc.rightClickMouse();
 			Thread.sleep(5000);
 			System.out.println("Left");
-		mc.clickMouse();
+			long t=System.currentTimeMillis();
+			isLeftClick=true;
+			while (System.currentTimeMillis()<t+10000){
+		Thread.sleep(100);
+			}
+			isLeftClick=false;
 		Thread.sleep(5000);
 		System.out.println("Jump");
 		mc.thePlayer.movementInput.jump=true;
@@ -41,17 +69,6 @@ public class Objectives {
 				}
 			
 			}
-			}
-		}.start();
-		new Thread(){
-			public void run(){
-				while(true){
-					try{
-						Thread.sleep(5);
-						mc.thePlayer.isJumping=true;
-					}catch(Exception e){
-					}
-				}
 			}
 		}.start();
 		
