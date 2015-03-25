@@ -1,11 +1,14 @@
 package net.winterflake.objectives;
 import java.util.ArrayList;
+
+import net.minecraft.client.Minecraft;
 /**
  *
  * @author leijurv
  */
 public abstract class MultiObjective extends Objective implements Parent {
     protected final ArrayList<Objective> childObjectives;
+    private int position=0;
     public MultiObjective(ArrayList<Objective> childObjectives) {
         this.childObjectives = childObjectives;
         for (Objective child : childObjectives) {
@@ -49,5 +52,16 @@ public abstract class MultiObjective extends Objective implements Parent {
     @Override
     public boolean hasChild(Objective child) {
         return childObjectives.contains(child);
+    }
+    public void doTick(Minecraft mc){
+    	if(position>=childObjectives.size()){
+    		System.out.println("Finished totally");
+    		finished=true;
+    		return;
+    	}
+    	if(!childObjectives.get(position).onTick(mc)){
+    		position++;
+    		System.out.println("Moved onto position "+position);
+    	}
     }
 }
