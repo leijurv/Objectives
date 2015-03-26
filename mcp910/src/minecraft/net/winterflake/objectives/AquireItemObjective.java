@@ -59,20 +59,21 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
 
 	public static ArrayList<Objective> howToGet(ItemStack item) {
 		ArrayList<Objective> possibilities = new ArrayList<Objective>();
-		if(checkFinished(Objectives.mc,item)){
+		if (checkFinished(Objectives.mc, item)) {
 			return possibilities;
 		}
-		List<IRecipe> l=CraftingManager.getInstance().getRecipeList();
-		for(IRecipe r : l){
-			if(r!=null && r.getRecipeOutput()!=null){
-			//System.out.println(r+","+r.getRecipeOutput().getItem()+item.getItem()+","+item.getItem().equals(r.getRecipeOutput().getItem()));
-			if(Item.getIdFromItem(item.getItem())==Item.getIdFromItem(r.getRecipeOutput().getItem())){
-				possibilities.add(new CraftItemObjective(item,r));
-				return possibilities;
-			}
+		List<IRecipe> l = CraftingManager.getInstance().getRecipeList();
+		for (IRecipe r : l) {
+			if (r != null && r.getRecipeOutput() != null) {
+				// System.out.println(r+","+r.getRecipeOutput().getItem()+item.getItem()+","+item.getItem().equals(r.getRecipeOutput().getItem()));
+				if (Item.getIdFromItem(item.getItem()) == Item.getIdFromItem(r
+						.getRecipeOutput().getItem())) {
+					possibilities.add(new CraftItemObjective(item, r));
+					return possibilities;
+				}
 			}
 		}
-		System.out.println(item+" has options "+possibilities);
+		System.out.println(item + " has options " + possibilities);
 		return possibilities;
 	}
 
@@ -80,20 +81,23 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
 		return ((double) claim.getAmountCompleted())
 				/ ((double) item.stackSize);
 	}
-	public boolean onTick(Minecraft mc){
-		if(checkFinished(mc,item)){
-			finished=true;
+
+	public boolean onTick(Minecraft mc) {
+		if (checkFinished(mc, item)) {
+			finished = true;
 		}
 		return super.onTick(mc);
 	}
-	public static boolean checkFinished(Minecraft mc, ItemStack item){
-		if(mc.thePlayer==null){
+
+	public static boolean checkFinished(Minecraft mc, ItemStack item) {
+		if (mc.thePlayer == null) {
 			return true;
 		}
-		for(ItemStack a : mc.thePlayer.inventory.mainInventory){
-			if(a!=null){
-				if(Item.getIdFromItem(item.getItem())==Item.getIdFromItem(a.getItem())){
-					System.out.println("Finished because already has "+item);
+		for (ItemStack a : mc.thePlayer.inventory.mainInventory) {
+			if (a != null) {
+				if (Item.getIdFromItem(item.getItem()) == Item.getIdFromItem(a
+						.getItem())) {
+					System.out.println("Finished because already has " + item);
 					return true;
 				}
 			}

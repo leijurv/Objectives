@@ -34,9 +34,11 @@ public class GetToCraftingTableObjective extends Objective implements Parent {
 								(int) Objectives.mc.thePlayer.posZ,
 								Objectives.mc);
 						if (t != null) {
-							craftingTable=t;
+							craftingTable = t;
 							Objectives.craftingTable = craftingTable;
-							ct=new MovementObjective(10000,craftingTable.getX(),craftingTable.getY(),craftingTable.getZ());
+							ct = new MovementObjective(10000,
+									craftingTable.getX(), craftingTable.getY(),
+									craftingTable.getZ());
 							System.out.println("Finished searching");
 							break;
 						}
@@ -92,23 +94,23 @@ public class GetToCraftingTableObjective extends Objective implements Parent {
 		}
 		if (rightClicked) {
 			if (mc.currentScreen instanceof GuiCrafting) {
-				
+
 				System.out.println("Finished with crafting");
 				finished = true;
 				rightClicked = false;
-			}else{
+			} else {
 				System.out.println(mc.currentScreen);
 			}
-			
+
 			return;
 		}
-		if(ct!=null){
-		if(!ct.onTick(mc)){
-			System.out.println("Get wit fi");
-			new RightClickObjective().onTick(mc);
-			rightClicked=true;
-			
-		}
+		if (ct != null) {
+			if (!ct.onTick(mc)) {
+				System.out.println("Get wit fi");
+				new RightClickObjective().onTick(mc);
+				rightClicked = true;
+
+			}
 		}
 	}
 

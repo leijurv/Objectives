@@ -44,7 +44,7 @@ public class MovementObjective extends BaseObjective {
 		this.targetY = y;
 		this.targetZ = z;
 		this.withinRange = withinRange;
-		this.craftingTable=new BlockPos(x,y,z);
+		this.craftingTable = new BlockPos(x, y, z);
 	}
 
 	public MovementObjective(long updatePeriod, double x, double y, double z) {
@@ -91,7 +91,7 @@ public class MovementObjective extends BaseObjective {
 				BlockPos var9 = mc.objectMouseOver.func_178782_a();
 				if (var9.equals(craftingTable)) {
 					System.out.println("Done");
-					finished=true;
+					finished = true;
 					Objectives.forward = false;
 				}
 			} else {
