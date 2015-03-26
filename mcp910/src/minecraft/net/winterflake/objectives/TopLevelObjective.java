@@ -1,5 +1,7 @@
 package net.winterflake.objectives;
 import java.util.ArrayList;
+
+import net.minecraft.client.Minecraft;
 /**
  *
  * @author leijurv
@@ -30,5 +32,8 @@ public class TopLevelObjective implements Parent {
     @Override
     public boolean hasChild(Objective child) {
         return child.equals(this.child);
+    }
+    public void onTick(Minecraft mc){
+    	child.onTick(mc);
     }
 }

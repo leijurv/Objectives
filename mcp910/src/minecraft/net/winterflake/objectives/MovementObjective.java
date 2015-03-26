@@ -58,4 +58,8 @@ public class MovementObjective extends BaseObjective {
         }
         return false;
     }
+	@Override
+	public void doTick(Minecraft mc) {
+		
+	}
 }

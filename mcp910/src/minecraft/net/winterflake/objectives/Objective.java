@@ -1,5 +1,7 @@
 package net.winterflake.objectives;
 import java.util.ArrayList;
+
+import net.minecraft.client.Minecraft;
 /**
  *
  * @author leijurv
@@ -7,7 +9,7 @@ import java.util.ArrayList;
 public abstract class Objective implements Comparable {
     protected volatile double priority;
     protected volatile double difficulty;
-    protected volatile boolean finished;
+    protected volatile boolean finished=false;
     public double getDifficulty() {
         return difficulty;
     }
@@ -59,4 +61,11 @@ public abstract class Objective implements Comparable {
             parentObjectives.add(parent);
         }
     }
+    public boolean onTick(Minecraft mc){
+    	if(!isFinished()){
+    		doTick(mc);
+    	}
+    	return !isFinished();
+    }
+    protected abstract void doTick(Minecraft mc);
 }

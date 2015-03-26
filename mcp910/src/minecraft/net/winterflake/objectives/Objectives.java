@@ -2,7 +2,13 @@ package net.winterflake.objectives;
 
 import java.util.ArrayList;
 
+import com.jcraft.jorbis.Block;
+
+import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
 
 /**
  *
@@ -17,30 +23,22 @@ public class Objectives {
 	public static boolean isJumping=false;
 	public static boolean strafe=false;
 	public static boolean forward=false;
+	public static BlockPos craftingTable;
+	public static TopLevelObjective main;
 	public static void onTick(){
 		if(isLeftClick)
-		leftClickTick++;
-		strafe=(System.currentTimeMillis()/1000)%5==0;
-		forward=(System.currentTimeMillis()/1000)%4==0;
-		mc.thePlayer.rotationYaw= ((((float)(System.currentTimeMillis()))/100F)%(360F));
+			mc.clickMouse();
+		//isLeftClick=false;
+	main.onTick(mc);
+	//System.out.println(isLeftClick);
 	}
-	public static boolean isPressed()
-    {
-        if (leftClickTick == 0)
-        {
-            return false;
-        }
-        else
-        {
-            --leftClickTick;
-            return true;
-        }
-    }
+	
     /**
      * @param args the command line arguments
      */
 	public Objectives(Minecraft mcIn){
 		mc = mcIn;
+		/*
 		new Thread(){
 			public void run(){
 			while(true){
@@ -71,8 +69,29 @@ public class Objectives {
 			
 			}
 			}
-		}.start();
-		
+		}.start();*/
+		/*
+		new Thread(){
+			public void run(){
+				while(true){
+					try {
+						Thread.sleep(1000/60);
+						if(craftingTable!=null){
+							LookAtBlockObjective.lookAtBlock(craftingTable, mc.thePlayer);
+						}
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					
+				}
+			}
+		}.start();*/
+		ArrayList<Objective> dank=new ArrayList<Objective>();
+		dank.add(new GetToCraftingTableObjective());
+		dank.add(new DoMineBlockObjective(1,2,3,null));
+		main=new TopLevelObjective(dank,1);
 	}
 
 }
