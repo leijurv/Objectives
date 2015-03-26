@@ -2117,7 +2117,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
 
                 while (true)
                 {
-                    if (/*!Objectives.isPressed() && */!this.gameSettings.keyBindAttack.isPressed())
+                    if (!Objectives.isPressed()/* && !this.gameSettings.keyBindAttack.isPressed()*/)
                     {
                         while (this.gameSettings.keyBindUseItem.isPressed())
                         {
@@ -2138,7 +2138,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
             }
             else
             {
-                while (/*Objectives.isPressed() || */this.gameSettings.keyBindAttack.isPressed())
+                while (Objectives.isPressed()/* || this.gameSettings.keyBindAttack.isPressed()*/)
                 {
                     this.clickMouse();
                 }
@@ -2159,7 +2159,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
                 this.rightClickMouse();
             }
 
-            this.sendClickBlockToController(this.currentScreen == null && (/*Objectives.isLeftClick ||*/ this.gameSettings.keyBindAttack.getIsKeyPressed()) && this.inGameHasFocus);
+            this.sendClickBlockToController(this.currentScreen == null && (Objectives.isLeftClick ) && this.inGameHasFocus);
         }
 
         if (this.theWorld != null)

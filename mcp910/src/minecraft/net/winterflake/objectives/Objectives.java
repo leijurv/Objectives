@@ -18,7 +18,7 @@ public class Objectives {
 
 	static public Minecraft mc;
 	public static boolean isRightClick=false;
-	public static int leftClickTick=0;
+	public static int pressTime=0;
 	public static boolean isLeftClick=false;
 	public static boolean isJumping=false;
 	public static boolean strafe=false;
@@ -27,14 +27,27 @@ public class Objectives {
 	public static TopLevelObjective main;
 	public static void onTick(){
 		if(isLeftClick)
-			mc.clickMouse();
+		pressTime++;
+		/*if(isLeftClick)
+			mc.clickMouse();*/
 		//isLeftClick=false;
 		if(!main.onTick(mc)){
 reset();
 		}
-	//System.out.println(isLeftClick);
+	System.out.println(isLeftClick+","+pressTime);
 	}
-	
+	public static boolean isPressed()
+    {
+        if (pressTime == 0)
+        {
+            return false;
+        }
+        else
+        {
+            --pressTime;
+            return true;
+        }
+    }
     /**
      * @param args the command line arguments
      */

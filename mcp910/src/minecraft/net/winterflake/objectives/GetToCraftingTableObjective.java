@@ -76,7 +76,7 @@ public class GetToCraftingTableObjective extends Objective implements Parent {
 			EntityPlayerSP thePlayer=Objectives.mc.thePlayer;
 			LookAtBlockObjective.lookAtBlock(craftingTable, Objectives.mc.thePlayer);
 			if(craftingTable.distanceSq(thePlayer.posX, thePlayer.posY, thePlayer.posZ)<2){
-				Objectives.mc.rightClickMouse();
+				//Objectives.mc.rightClickMouse();
 				finished=true;
 			}else{
 				Objectives.forward=true;
