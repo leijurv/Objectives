@@ -72,7 +72,7 @@ public class Objectives {
 		
 		
 		if (!main.onTick(mc)) {
-			reset();
+			//reset();
 		}
 		//System.out.println(isLeftClick + "," + pressTime);
 		

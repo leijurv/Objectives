@@ -64,6 +64,7 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
 			//System.out.println(r+","+r.getRecipeOutput().getItem()+item.getItem()+","+item.getItem().equals(r.getRecipeOutput().getItem()));
 			if(Item.getIdFromItem(item.getItem())==Item.getIdFromItem(r.getRecipeOutput().getItem())){
 				possibilities.add(new CraftItemObjective(item,r));
+				return possibilities;
 			}
 			}
 		}
