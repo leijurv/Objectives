@@ -14,7 +14,7 @@ public class PutItemsInCraftingTableObjective extends Objective {
 		recipe = r;
 	}
 
-	public static int map(int id, int width, int height) {
+	public static int map(int id, int width, int height) {//If the recipe isn't 3x3, then do some super sketchy math
 		int yPos = id / width;
 		int xPos = id % width;
 		int z = xPos + 3 * yPos;
@@ -38,12 +38,13 @@ public class PutItemsInCraftingTableObjective extends Objective {
 					for (int j = 0; j < stacks.length; j++) {
 						if (stacks[j] != null
 								&& stacks[j].getItem().equals(neededItem)) {
-							s.handleMouseClick(null, j + 37, 0, 0);
+							
+							s.handleMouseClick(null, j + 37, 0, 0);//Grab the item    Do not question the j+37. And if you value your life, do not change it.
 							s.handleMouseClick(
 									null,
 									map(i, recipe.recipeWidth,
-											recipe.recipeHeight), 1, 0);
-							s.handleMouseClick(null, j + 37, 0, 0);
+											recipe.recipeHeight), 1, 0);//Put in table with right click
+							s.handleMouseClick(null, j + 37, 0, 0);//Put leftovers back where they were
 							System.out.println(stacks[j] + " from " + j
 									+ " to " + i);
 							d = true;
