@@ -7,7 +7,9 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiCrafting;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.ContainerWorkbench;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
@@ -26,10 +28,13 @@ public class Objectives {
 	public static boolean strafe = false;
 	public static boolean forward = false;
 	public static BlockPos craftingTable;
-	public static TopLevelObjective main;
+	public static TopLevelObjective main=null;
 	public static boolean alr=false;
 	public static boolean wasScreen=false;
 	public static void onTick() {
+		if(main==null){
+			reset();
+		}
 		if(mc.theWorld==null || mc.thePlayer==null){
 			return;
 		}
@@ -43,7 +48,7 @@ public class Objectives {
 			}
 		}
 		if(pressTime<0){
-			System.out.println(pressTime);
+			//System.out.println(pressTime);
 		}
 		if (isLeftClick && mc.currentScreen==null)
 			pressTime++;
@@ -117,13 +122,13 @@ public static boolean getIsPressed(){
 		 * 
 		 * } } }.start();
 		 */
-		reset();
 	}
 
 	public static void reset() {
 		ArrayList<Objective> dank = new ArrayList<Objective>();
-		dank.add(new GetToCraftingTableObjective());
-		dank.add(new DoMineBlockObjective(1, 2, 3, null));
+		dank.add(AquireItemObjective.getAquireItemObjective(new ItemStack(Items.wooden_pickaxe,1),true));
+		//dank.add(new GetToCraftingTableObjective());
+		//dank.add(new DoMineBlockObjective(1, 2, 3, null));
 		main = new TopLevelObjective(dank, 1);
 	}
 }

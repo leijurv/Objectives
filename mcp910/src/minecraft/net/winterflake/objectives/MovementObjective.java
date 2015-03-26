@@ -2,6 +2,9 @@ package net.winterflake.objectives;
 
 import net.minecraft.*;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.MovingObjectPosition;
 import net.winterflake.objectives.Objectives;
 
 /**
@@ -15,6 +18,7 @@ public class MovementObjective extends BaseObjective {
 	final double targetX;
 	final double targetY;
 	final double targetZ;
+	final BlockPos craftingTable;
 	public static final double MC_WALKING_SPEED = 4.3;// blocks/sec
 	public static final double MC_STAIR_ASCENDING_SPEED = 2;
 	final boolean withinRange;
@@ -40,6 +44,7 @@ public class MovementObjective extends BaseObjective {
 		this.targetY = y;
 		this.targetZ = z;
 		this.withinRange = withinRange;
+		this.craftingTable=new BlockPos(x,y,z);
 	}
 
 	public MovementObjective(long updatePeriod, double x, double y, double z) {
@@ -73,6 +78,26 @@ public class MovementObjective extends BaseObjective {
 
 	@Override
 	public void doTick(Minecraft mc) {
+		System.out.println("Doing tick");
+		Objectives.forward = false;
+		if (craftingTable != null) {
+			EntityPlayerSP thePlayer = Objectives.mc.thePlayer;
+			LookAtBlockObjective.lookAtBlock(craftingTable,
+					Objectives.mc.thePlayer);
+
+			if (mc.objectMouseOver != null
+					&& mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK
+					&& mc.objectMouseOver.func_178782_a() != null) {
+				BlockPos var9 = mc.objectMouseOver.func_178782_a();
+				if (var9.equals(craftingTable)) {
+					System.out.println("Done");
+					finished=true;
+					Objectives.forward = false;
+				}
+			} else {
+				Objectives.forward = true;
+			}
+		}
 
 	}
 }

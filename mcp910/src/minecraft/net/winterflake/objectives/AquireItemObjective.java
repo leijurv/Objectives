@@ -2,9 +2,12 @@ package net.winterflake.objectives;
 
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.List;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.item.crafting.IRecipe;
 
 /**
  *
@@ -55,7 +58,16 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
 
 	public static ArrayList<Objective> howToGet(ItemStack item) {
 		ArrayList<Objective> possibilities = new ArrayList<Objective>();
-
+		List<IRecipe> l=CraftingManager.getInstance().getRecipeList();
+		for(IRecipe r : l){
+			if(r!=null && r.getRecipeOutput()!=null){
+			//System.out.println(r+","+r.getRecipeOutput().getItem()+item.getItem()+","+item.getItem().equals(r.getRecipeOutput().getItem()));
+			if(Item.getIdFromItem(item.getItem())==Item.getIdFromItem(r.getRecipeOutput().getItem())){
+				possibilities.add(new CraftItemObjective(item,r));
+			}
+			}
+		}
+		System.out.println("options"+possibilities);
 		return possibilities;
 	}
 

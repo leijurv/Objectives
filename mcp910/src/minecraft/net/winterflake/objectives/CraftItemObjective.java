@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.ShapedRecipes;
 
 /**
  *
@@ -22,20 +23,29 @@ public class CraftItemObjective extends MultiAndObjective {
 	public static ArrayList<Objective> getRequirements(IRecipe recipe,
 			ItemStack item) {
 		ArrayList<Objective> input = new ArrayList<>();
+		if(recipe instanceof ShapedRecipes){
+			ShapedRecipes n=(ShapedRecipes)recipe;
+			for(ItemStack r : n.recipeItems){
+				
+			}
+			
+		}
 		if (requiresCraftingTable(recipe)) {
 			System.out.println("Requires c");
 			input.add(new GetToCraftingTableObjective());
 		}
+		input.add(new PutItemsInCraftingTableObjective((ShapedRecipes)recipe));
+		System.out.println(input);
 		return input;
 	}
 
 	public static boolean requiresCraftingTable(IRecipe recipe) {
-		return recipe.getRecipeSize() > 4;
+		return recipe.getRecipeSize() >= 4;
 	}
 
 	@Override
 	public double getPriority(Objective o) {
-		throw new UnsupportedOperationException("Not supported yet."); // To
+		return 1; // To
 																		// change
 																		// body
 																		// of

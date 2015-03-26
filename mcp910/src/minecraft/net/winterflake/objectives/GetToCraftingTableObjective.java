@@ -18,6 +18,7 @@ public class GetToCraftingTableObjective extends Objective implements Parent {
 	static boolean hasCraftingTable = true;
 	private AquireItemObjective craftingtable;
 	private BlockPos craftingTable;
+	private MovementObjective ct;
 	private boolean rightClicked = false;
 
 	public GetToCraftingTableObjective() {
@@ -34,6 +35,7 @@ public class GetToCraftingTableObjective extends Objective implements Parent {
 								Objectives.mc);
 						if (craftingTable != null) {
 							Objectives.craftingTable = craftingTable;
+							ct=new MovementObjective(10000,craftingTable.getX(),craftingTable.getY(),craftingTable.getZ());
 							System.out.println("Finished searching");
 							break;
 						}
@@ -99,27 +101,14 @@ public class GetToCraftingTableObjective extends Objective implements Parent {
 			
 			return;
 		}
-		Objectives.forward = false;
-		if (craftingTable != null) {
-			EntityPlayerSP thePlayer = Objectives.mc.thePlayer;
-			LookAtBlockObjective.lookAtBlock(craftingTable,
-					Objectives.mc.thePlayer);
-
-			if (mc.objectMouseOver != null
-					&& mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK
-					&& mc.objectMouseOver.func_178782_a() != null) {
-				BlockPos var9 = mc.objectMouseOver.func_178782_a();
-				if (var9.equals(craftingTable)) {
-					Objectives.mc.rightClickMouse();
-					System.out.println("Opening crafting table");
-					rightClicked = true;
-					Objectives.forward = false;
-				}
-			} else {
-				Objectives.forward = true;
-			}
+		if(ct!=null){
+		if(!ct.onTick(mc)){
+			System.out.println("Get wit fi");
+			new RightClickObjective().onTick(mc);
+			rightClicked=true;
+			
 		}
-
+		}
 	}
 
 	public static BlockPos findCraftingTable(int curX, int curY, int curZ,
