@@ -1,6 +1,5 @@
+mcp910/eclipse/.recommenders/*
 mcp910/eclipse/.metadata/.plugins/*
-mcp910/eclipse/.metadata/.plugins
-mcp910/eclipse/.metadata/.plugins/
-/mcp910/eclipse/.metadata/.plugins/*
-/mcp910/eclipse/.metadata/.plugins
-/mcp910/eclipse/.metadata/.plugins/
+mcp910/jars/crash-reports/
+mcp910/jars/saves/*
+mcp910/jars/logs/*
