@@ -35,6 +35,7 @@ public class CraftItemObjective extends MultiAndObjective {
 			input.add(new GetToCraftingTableObjective());
 		}
 		input.add(new PutItemsInCraftingTableObjective((ShapedRecipes)recipe));
+		input.add(new CloseObjective());
 		System.out.println(input);
 		return input;
 	}

@@ -55,16 +55,7 @@ public class Objectives {
 		
 		 //if(isLeftClick) mc.clickMouse();
 		//System.out.println(mc.currentScreen+","+(mc.currentScreen instanceof GuiCrafting));
-		 if(mc.currentScreen instanceof GuiCrafting){
-			 GuiCrafting s=(GuiCrafting)(mc.currentScreen);
-			
-			 if(!alr){
-				 System.out.println("SlotClick");
-				 s.handleMouseClick(null, 37, 0, 0);
-				 s.handleMouseClick(null, 3, 0, 0);
-				 alr=true;
-			 }
-		 }
+		
 		 if(mc.currentScreen==null){
 			 alr=false;
 		 }
@@ -72,7 +63,7 @@ public class Objectives {
 		
 		
 		if (!main.onTick(mc)) {
-			//reset();
+			reset();
 		}
 		//System.out.println(isLeftClick + "," + pressTime);
 		
@@ -128,7 +119,7 @@ public static boolean getIsPressed(){
 		ArrayList<Objective> dank = new ArrayList<Objective>();
 		dank.add(AquireItemObjective.getAquireItemObjective(new ItemStack(Items.wooden_pickaxe,1),true));
 		//dank.add(new GetToCraftingTableObjective());
-		//dank.add(new DoMineBlockObjective(1, 2, 3, null));
+		dank.add(new DoMineBlockObjective(1, 2, 3, null));
 		main = new TopLevelObjective(dank, 1);
 	}
 }
