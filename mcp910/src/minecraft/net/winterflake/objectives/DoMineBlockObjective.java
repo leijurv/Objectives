@@ -34,6 +34,7 @@ public class DoMineBlockObjective extends BaseObjective {
 		Objectives.isLeftClick = true;
 		LookAtBlockObjective.lookAtBlock(Objectives.craftingTable,
 				Objectives.mc.thePlayer);
+
 		BlockPos bp = Objectives.craftingTable;
 		IBlockState dank = mc.theWorld.getBlockState(bp);
 		if (dank.getBlock().equals(Blocks.air)) {

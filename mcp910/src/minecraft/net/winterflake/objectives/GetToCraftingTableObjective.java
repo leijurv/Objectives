@@ -6,6 +6,8 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
 
 /**
  *
@@ -88,11 +90,14 @@ public class GetToCraftingTableObjective extends Objective implements Parent {
 			EntityPlayerSP thePlayer = Objectives.mc.thePlayer;
 			LookAtBlockObjective.lookAtBlock(craftingTable,
 					Objectives.mc.thePlayer);
-			if (craftingTable.distanceSq(thePlayer.posX, thePlayer.posY,
-					thePlayer.posZ) < 2) {
+			
+				if (mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && mc.objectMouseOver.func_178782_a() != null)
+	            {
+	                BlockPos var9 = mc.objectMouseOver.func_178782_a();
+			if (var9.equals(craftingTable)) {
 				// Objectives.mc.rightClickMouse();
 				finished = true;
-			} else {
+			}} else {
 				Objectives.forward = true;
 			}
 		}

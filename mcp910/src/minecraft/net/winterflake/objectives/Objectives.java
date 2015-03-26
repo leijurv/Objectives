@@ -7,6 +7,8 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
 
 /**
  *
@@ -31,11 +33,14 @@ public class Objectives {
 		 * if(isLeftClick) mc.clickMouse();
 		 */
 		// isLeftClick=false;
+		
+		
 		if (!main.onTick(mc)) {
 			reset();
 		}
 		System.out.println(isLeftClick + "," + pressTime);
-	}
+		
+		}
 
 	public static boolean isPressed() {
 		if (pressTime == 0) {
