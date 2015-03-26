@@ -19,7 +19,7 @@ public class Objectives {
 	static public Minecraft mc;
 	public static boolean isRightClick=false;
 	public static int leftClickTick=0;
-	public static boolean isLeftClick=true;
+	public static boolean isLeftClick=false;
 	public static boolean isJumping=false;
 	public static boolean strafe=false;
 	public static boolean forward=false;
@@ -30,24 +30,9 @@ public class Objectives {
 			mc.clickMouse();
 		//isLeftClick=false;
 	main.onTick(mc);
-	System.out.println(isLeftClick);
+	//System.out.println(isLeftClick);
 	}
 	
-	public static boolean isPressed()
-    {
-		if(7<10){
-			return false;
-		}
-        if (leftClickTick <= 0)
-        {
-            return false;
-        }
-        else
-        {
-            --leftClickTick;
-            return true;
-        }
-    }
     /**
      * @param args the command line arguments
      */
