@@ -601,6 +601,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
 
         if ("minecraft:crafting_table".equals(var2))
         {
+        	System.out.println("OPENING CRAFTING TABLE");
             this.mc.displayGuiScreen(new GuiCrafting(this.inventory, this.worldObj));
         }
         else if ("minecraft:enchanting_table".equals(var2))

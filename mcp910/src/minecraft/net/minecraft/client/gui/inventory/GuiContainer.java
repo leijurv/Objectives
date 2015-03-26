@@ -687,7 +687,7 @@ public abstract class GuiContainer extends GuiScreen
     /**
      * Called when the mouse is clicked over a slot or outside the gui.
      */
-    protected void handleMouseClick(Slot slotIn, int slotId, int clickedButton, int clickType)
+    public void handleMouseClick(Slot slotIn, int slotId, int clickedButton, int clickType)
     {
         if (slotIn != null)
         {

@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.inventory.GuiCrafting;
 import net.minecraft.init.Blocks;
+import net.minecraft.inventory.ContainerWorkbench;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
@@ -25,25 +27,56 @@ public class Objectives {
 	public static boolean forward = false;
 	public static BlockPos craftingTable;
 	public static TopLevelObjective main;
-
+	public static boolean alr=false;
+	public static boolean wasScreen=false;
 	public static void onTick() {
-		if (isLeftClick)
+		if(mc.theWorld==null || mc.thePlayer==null){
+			return;
+		}
+		if(mc.currentScreen!=null){
+			wasScreen=true;
+		}else{
+			if(wasScreen){
+				wasScreen=false;
+				pressTime=-10;
+						
+			}
+		}
+		if(pressTime<0){
+			System.out.println(pressTime);
+		}
+		if (isLeftClick && mc.currentScreen==null)
 			pressTime++;
-		/*
-		 * if(isLeftClick) mc.clickMouse();
-		 */
+		
+		 //if(isLeftClick) mc.clickMouse();
+		//System.out.println(mc.currentScreen+","+(mc.currentScreen instanceof GuiCrafting));
+		 if(mc.currentScreen instanceof GuiCrafting){
+			 GuiCrafting s=(GuiCrafting)(mc.currentScreen);
+			
+			 if(!alr){
+				 System.out.println("SlotClick");
+				 s.handleMouseClick(null, 37, 0, 0);
+				 s.handleMouseClick(null, 3, 0, 0);
+				 alr=true;
+			 }
+		 }
+		 if(mc.currentScreen==null){
+			 alr=false;
+		 }
 		// isLeftClick=false;
 		
 		
 		if (!main.onTick(mc)) {
 			reset();
 		}
-		System.out.println(isLeftClick + "," + pressTime);
+		//System.out.println(isLeftClick + "," + pressTime);
 		
 		}
-
+public static boolean getIsPressed(){
+	return isLeftClick && mc.currentScreen==null && pressTime>-2;
+}
 	public static boolean isPressed() {
-		if (pressTime == 0) {
+		if (pressTime <= 0) {
 			return false;
 		} else {
 			--pressTime;

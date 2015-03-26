@@ -3,6 +3,7 @@ package net.winterflake.objectives;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.gui.inventory.GuiCrafting;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
@@ -17,6 +18,7 @@ public class GetToCraftingTableObjective extends Objective implements Parent {
 	static boolean hasCraftingTable = true;
 	private AquireItemObjective craftingtable;
 	private BlockPos craftingTable;
+	private boolean rightClicked = false;
 
 	public GetToCraftingTableObjective() {
 		new Thread() {
@@ -85,19 +87,35 @@ public class GetToCraftingTableObjective extends Objective implements Parent {
 		if (finished) {
 			System.out.println("WHAT");
 		}
+		if (rightClicked) {
+			if (mc.currentScreen instanceof GuiCrafting) {
+				
+				System.out.println("Finished with crafting");
+				finished = true;
+				rightClicked = false;
+			}else{
+				System.out.println(mc.currentScreen);
+			}
+			
+			return;
+		}
 		Objectives.forward = false;
 		if (craftingTable != null) {
 			EntityPlayerSP thePlayer = Objectives.mc.thePlayer;
 			LookAtBlockObjective.lookAtBlock(craftingTable,
 					Objectives.mc.thePlayer);
-			
-				if (mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && mc.objectMouseOver.func_178782_a() != null)
-	            {
-	                BlockPos var9 = mc.objectMouseOver.func_178782_a();
-			if (var9.equals(craftingTable)) {
-				// Objectives.mc.rightClickMouse();
-				finished = true;
-			}} else {
+
+			if (mc.objectMouseOver != null
+					&& mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK
+					&& mc.objectMouseOver.func_178782_a() != null) {
+				BlockPos var9 = mc.objectMouseOver.func_178782_a();
+				if (var9.equals(craftingTable)) {
+					Objectives.mc.rightClickMouse();
+					System.out.println("Opening crafting table");
+					rightClicked = true;
+					Objectives.forward = false;
+				}
+			} else {
 				Objectives.forward = true;
 			}
 		}

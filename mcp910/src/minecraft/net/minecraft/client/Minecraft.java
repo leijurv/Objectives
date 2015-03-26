@@ -1770,7 +1770,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         {
             this.leftClickCounter = 10000;
         }
-
+        Objectives.onTick();
         CrashReport var2;
         CrashReportCategory var3;
 
@@ -1888,7 +1888,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
             }
 
             this.mcProfiler.endStartSection("keyboard");
-            Objectives.onTick();
+            
             while (Keyboard.next())
             {
                 var1 = Keyboard.getEventKey() == 0 ? Keyboard.getEventCharacter() + 256 : Keyboard.getEventKey();
@@ -2159,7 +2159,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
                 this.rightClickMouse();
             }
 
-            this.sendClickBlockToController(this.currentScreen == null && (Objectives.isLeftClick ) && this.inGameHasFocus);
+            this.sendClickBlockToController(this.currentScreen == null && (Objectives.getIsPressed()) && this.inGameHasFocus);
         }
 
         if (this.theWorld != null)

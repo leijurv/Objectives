@@ -155,6 +155,7 @@ public abstract class Container
      */
     public ItemStack slotClick(int slotId, int clickedButton, int mode, EntityPlayer playerIn)
     {
+    	System.out.println("CLICK "+slotId+","+clickedButton+","+mode);
         ItemStack var5 = null;
         InventoryPlayer var6 = playerIn.inventory;
         int var9;

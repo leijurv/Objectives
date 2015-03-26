@@ -42,7 +42,7 @@ public class DoMineBlockObjective extends BaseObjective {
 			Objectives.isLeftClick = false;
 			finished = true;
 		} else {
-			System.out.println(dank.getBlock());
+			//System.out.println(dank.getBlock());
 		}
 	}
 }
