@@ -33,7 +33,7 @@ public class TopLevelObjective implements Parent {
     public boolean hasChild(Objective child) {
         return child.equals(this.child);
     }
-    public void onTick(Minecraft mc){
-    	child.onTick(mc);
+    public boolean onTick(Minecraft mc){
+    	return child.onTick(mc);
     }
 }

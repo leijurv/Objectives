@@ -29,7 +29,9 @@ public class Objectives {
 		if(isLeftClick)
 			mc.clickMouse();
 		//isLeftClick=false;
-	main.onTick(mc);
+		if(!main.onTick(mc)){
+reset();
+		}
 	//System.out.println(isLeftClick);
 	}
 	
@@ -88,10 +90,12 @@ public class Objectives {
 				}
 			}
 		}.start();*/
-		ArrayList<Objective> dank=new ArrayList<Objective>();
-		dank.add(new GetToCraftingTableObjective());
-		dank.add(new DoMineBlockObjective(1,2,3,null));
-		main=new TopLevelObjective(dank,1);
+		reset();
 	}
-
+public static void reset(){
+	ArrayList<Objective> dank=new ArrayList<Objective>();
+	dank.add(new GetToCraftingTableObjective());
+	dank.add(new DoMineBlockObjective(1,2,3,null));
+	main=new TopLevelObjective(dank,1);
+}
 }
