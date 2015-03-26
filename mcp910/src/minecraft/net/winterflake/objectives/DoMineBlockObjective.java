@@ -33,6 +33,7 @@ public class DoMineBlockObjective extends BaseObjective {
 		IBlockState dank=mc.theWorld.getBlockState(bp);
 		if(dank.getBlock().equals(Blocks.air)){
 			System.out.println("Finished");
+			Objectives.isLeftClick=false;
 			finished=true;
 		}else{
 			System.out.println(dank.getBlock());
