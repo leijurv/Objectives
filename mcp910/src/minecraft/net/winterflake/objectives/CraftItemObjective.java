@@ -26,7 +26,8 @@ public class CraftItemObjective extends MultiAndObjective {
 		if(recipe instanceof ShapedRecipes){
 			ShapedRecipes n=(ShapedRecipes)recipe;
 			for(ItemStack r : n.recipeItems){
-				
+				if(r!=null)
+				input.add(AquireItemObjective.getAquireItemObjective(r,true));
 			}
 			
 		}
@@ -41,7 +42,8 @@ public class CraftItemObjective extends MultiAndObjective {
 	}
 
 	public static boolean requiresCraftingTable(IRecipe recipe) {
-		return recipe.getRecipeSize() >= 4;
+		return true;
+		//return recipe.getRecipeSize() >= 4;
 	}
 
 	@Override

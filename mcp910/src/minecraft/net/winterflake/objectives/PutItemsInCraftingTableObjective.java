@@ -17,7 +17,8 @@ public class PutItemsInCraftingTableObjective extends Objective{
 		if(mc.currentScreen instanceof GuiCrafting){
 			 GuiCrafting s=(GuiCrafting)(mc.currentScreen);
 			 finished=true;
-			 for(int i=0; i<9; i++){
+			 boolean small=recipe.recipeItems.length==2;
+			 for(int i=0; i<(small?2:9); i++){
 				 ItemStack it=recipe.recipeItems[i];
 				 if(it!=null){
 				 Item neededItem=it.getItem();
@@ -27,7 +28,7 @@ public class PutItemsInCraftingTableObjective extends Objective{
 				 for(int j=0; j<stacks.length; j++){
 					 if(stacks[j]!=null && stacks[j].getItem().equals(neededItem)){
 						 s.handleMouseClick(null, j+37, 0, 0);
-						 s.handleMouseClick(null,i+1,1,0);
+						 s.handleMouseClick(null,i+1+((small&&i>0)?2:0),1,0);
 						 s.handleMouseClick(null,j+37,0,0);
 						 System.out.println(stacks[j]+" from "+j+" to "+i);
 						 d=true;

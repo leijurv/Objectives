@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
@@ -58,6 +59,9 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
 
 	public static ArrayList<Objective> howToGet(ItemStack item) {
 		ArrayList<Objective> possibilities = new ArrayList<Objective>();
+		if(checkFinished(Objectives.mc,item)){
+			return possibilities;
+		}
 		List<IRecipe> l=CraftingManager.getInstance().getRecipeList();
 		for(IRecipe r : l){
 			if(r!=null && r.getRecipeOutput()!=null){
@@ -68,13 +72,33 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
 			}
 			}
 		}
-		System.out.println("options"+possibilities);
+		System.out.println(item+" has options "+possibilities);
 		return possibilities;
 	}
 
 	public double getCompletionPercentage() {
 		return ((double) claim.getAmountCompleted())
 				/ ((double) item.stackSize);
+	}
+	public boolean onTick(Minecraft mc){
+		if(checkFinished(mc,item)){
+			finished=true;
+		}
+		return super.onTick(mc);
+	}
+	public static boolean checkFinished(Minecraft mc, ItemStack item){
+		if(mc.thePlayer==null){
+			return true;
+		}
+		for(ItemStack a : mc.thePlayer.inventory.mainInventory){
+			if(a!=null){
+				if(Item.getIdFromItem(item.getItem())==Item.getIdFromItem(a.getItem())){
+					System.out.println("Finished because already has "+item);
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 }

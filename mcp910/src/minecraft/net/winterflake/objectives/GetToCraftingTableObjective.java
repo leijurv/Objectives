@@ -28,12 +28,13 @@ public class GetToCraftingTableObjective extends Objective implements Parent {
 
 					try {
 						Thread.sleep(500);
-						craftingTable = findCraftingTable(
+						BlockPos t = findCraftingTable(
 								(int) Objectives.mc.thePlayer.posX,
 								(int) Objectives.mc.thePlayer.posY,
 								(int) Objectives.mc.thePlayer.posZ,
 								Objectives.mc);
-						if (craftingTable != null) {
+						if (t != null) {
+							craftingTable=t;
 							Objectives.craftingTable = craftingTable;
 							ct=new MovementObjective(10000,craftingTable.getX(),craftingTable.getY(),craftingTable.getZ());
 							System.out.println("Finished searching");

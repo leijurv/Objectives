@@ -116,6 +116,7 @@ public static boolean getIsPressed(){
 	}
 
 	public static void reset() {
+		craftingTable=null;
 		ArrayList<Objective> dank = new ArrayList<Objective>();
 		dank.add(AquireItemObjective.getAquireItemObjective(new ItemStack(Items.wooden_pickaxe,1),true));
 		//dank.add(new GetToCraftingTableObjective());

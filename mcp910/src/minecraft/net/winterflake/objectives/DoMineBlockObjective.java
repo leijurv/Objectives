@@ -31,7 +31,13 @@ public class DoMineBlockObjective extends BaseObjective {
 
 	@Override
 	public void doTick(Minecraft mc) {
+if(Objectives.craftingTable==null){
+	System.out.println("Null crafting table");
+	finished=true;
+			return;
+		}
 		Objectives.isLeftClick = true;
+		
 		LookAtBlockObjective.lookAtBlock(Objectives.craftingTable,
 				Objectives.mc.thePlayer);
 
