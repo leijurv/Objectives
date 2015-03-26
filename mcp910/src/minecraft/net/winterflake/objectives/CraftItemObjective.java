@@ -26,7 +26,6 @@ public class CraftItemObjective extends MultiAndObjective {
 			System.out.println("Requires c");
 			input.add(new GetToCraftingTableObjective());
 		}
-		
 		return input;
 	}
 
