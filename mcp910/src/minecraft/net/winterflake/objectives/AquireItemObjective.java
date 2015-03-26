@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
@@ -73,6 +75,10 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
 				}
 			}
 		}
+		System.out.println(Block.getIdFromBlock(Blocks.log)+" "+Item.getIdFromItem(item.getItem())+" "+item+" "+item.getItem());
+		if(Block.getIdFromBlock(Blocks.log)==Item.getIdFromItem(item.getItem())){
+			possibilities.add(new PunchTreeObjective());
+		}
 		System.out.println(item + " has options " + possibilities);
 		return possibilities;
 	}
@@ -96,7 +102,7 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
 		for (ItemStack a : mc.thePlayer.inventory.mainInventory) {
 			if (a != null) {
 				if (Item.getIdFromItem(item.getItem()) == Item.getIdFromItem(a
-						.getItem())) {
+						.getItem()) && item.stackSize<=a.stackSize) {
 					System.out.println("Finished because already has " + item);
 					return true;
 				}

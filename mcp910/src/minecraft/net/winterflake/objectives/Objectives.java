@@ -117,14 +117,14 @@ public class Objectives {
 		 * } } }.start();
 		 */
 	}
-
 	public static void reset() {
+		
 		craftingTable = null;
 		ArrayList<Objective> dank = new ArrayList<Objective>();
-		dank.add(AquireItemObjective.getAquireItemObjective(new ItemStack(
-				Items.wooden_pickaxe, 1), true));
+		dank.add(AquireItemObjective.getAquireItemObjective(new ItemStack(Items.stone_pickaxe, 1), true));
 		// dank.add(new GetToCraftingTableObjective());
 		dank.add(new DoMineBlockObjective(1, 2, 3, null));
+		//		dank.add(AquireItemObjective.getAquireItemObjective(new ItemStack(Blocks.log,1),true));
 		main = new TopLevelObjective(dank, 1);
 	}
 }

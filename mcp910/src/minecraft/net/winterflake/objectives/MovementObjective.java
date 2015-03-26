@@ -48,7 +48,7 @@ public class MovementObjective extends BaseObjective {
 	}
 
 	public MovementObjective(long updatePeriod, double x, double y, double z) {
-		this(updatePeriod, x, y, z, false);
+		this(updatePeriod, x, y, z, true);
 	}
 
 	@Override
@@ -78,24 +78,34 @@ public class MovementObjective extends BaseObjective {
 
 	@Override
 	public void doTick(Minecraft mc) {
-		System.out.println("Doing tick");
+		//System.out.println("Doing tick");
 		Objectives.forward = false;
 		if (craftingTable != null) {
 			EntityPlayerSP thePlayer = Objectives.mc.thePlayer;
+			Objectives.forward=true;
 			LookAtBlockObjective.lookAtBlock(craftingTable,
 					Objectives.mc.thePlayer);
+			if (withinRange) {
+				
 
-			if (mc.objectMouseOver != null
-					&& mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK
-					&& mc.objectMouseOver.func_178782_a() != null) {
-				BlockPos var9 = mc.objectMouseOver.func_178782_a();
-				if (var9.equals(craftingTable)) {
-					System.out.println("Done");
-					finished = true;
-					Objectives.forward = false;
+				if (mc.objectMouseOver != null
+						&& mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK
+						&& mc.objectMouseOver.func_178782_a() != null) {
+					BlockPos var9 = mc.objectMouseOver.func_178782_a();
+					if (var9.equals(craftingTable)) {
+						System.out.println("Done");
+						finished = true;
+						Objectives.forward = false;
+					}
 				}
 			} else {
-				Objectives.forward = true;
+				
+				if (craftingTable.distanceSq(thePlayer.posX, craftingTable.getY(),
+						thePlayer.posZ) < 3 || craftingTable.distanceSq(thePlayer.posX, craftingTable.getY(),
+								thePlayer.posZ) < 3) {
+					finished = true;
+					Objectives.forward=false;
+				}
 			}
 		}
 
