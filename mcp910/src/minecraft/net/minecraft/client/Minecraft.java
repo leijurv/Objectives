@@ -1532,6 +1532,8 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 		if (this.currentScreen != null) {
 			this.leftClickCounter = 10000;
 		}
+		
+		//TODO: Objectives
 		Objectives.onTick();
 		CrashReport var2;
 		CrashReportCategory var3;
@@ -1798,11 +1800,8 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 				label435:
 				
 				while (true) {
-					if (!Objectives.isPressed()/*
-												 * &&
-												 * !this.gameSettings.keyBindAttack
-												 * .isPressed()
-												 */) {
+					// TODO: Objectives
+					if (!Objectives.isPressed() || this.gameSettings.keyBindAttack.isPressed()) {
 						while (this.gameSettings.keyBindUseItem.isPressed()) {
 							;
 						}
@@ -1817,11 +1816,8 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 					}
 				}
 			} else {
-				while (Objectives.isPressed()/*
-											 * ||
-											 * this.gameSettings.keyBindAttack
-											 * .isPressed()
-											 */) {
+				// TODO: Objectives
+				while (Objectives.isPressed() || this.gameSettings.keyBindAttack.isPressed()) {
 					this.clickMouse();
 				}
 				
@@ -1838,6 +1834,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 				this.rightClickMouse();
 			}
 			
+			//TODO: Objectives
 			this.sendClickBlockToController(this.currentScreen == null && (Objectives.getIsPressed()) && this.inGameHasFocus);
 		}
 		
