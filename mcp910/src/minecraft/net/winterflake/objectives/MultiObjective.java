@@ -9,16 +9,17 @@ import net.minecraft.client.Minecraft;
  * @author leijurv
  */
 public abstract class MultiObjective extends Objective implements Parent {
+	
 	protected final ArrayList<Objective> childObjectives;
 	private int position = 0;
-
+	
 	public MultiObjective(ArrayList<Objective> childObjectives) {
 		this.childObjectives = childObjectives;
 		for (Objective child : childObjectives) {
 			child.registerParent(this);
 		}
 	}
-
+	
 	/**
 	 * We need to notify all children to recalculate priority when our priority
 	 * changes
@@ -32,6 +33,7 @@ public abstract class MultiObjective extends Objective implements Parent {
 		for (int i = 0; i < childObjectives.size(); i++) {
 			final Objective child = childObjectives.get(i);
 			new Thread() {
+				
 				@Override
 				public void run() {
 					child.calculatePriority();
@@ -40,7 +42,7 @@ public abstract class MultiObjective extends Objective implements Parent {
 		}
 		return priority;
 	}
-
+	
 	/**
 	 * Get the difficulty of the objectives
 	 *
@@ -48,7 +50,7 @@ public abstract class MultiObjective extends Objective implements Parent {
 	 */
 	@Override
 	public abstract double getDifficulty();
-
+	
 	/**
 	 * Do I have this child
 	 *
@@ -60,7 +62,7 @@ public abstract class MultiObjective extends Objective implements Parent {
 	public boolean hasChild(Objective child) {
 		return childObjectives.contains(child);
 	}
-
+	
 	public void doTick(Minecraft mc) {
 		if (position >= childObjectives.size()) {
 			System.out.println("Finished totally");

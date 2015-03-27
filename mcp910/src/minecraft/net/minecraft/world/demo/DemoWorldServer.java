@@ -8,15 +8,14 @@ import net.minecraft.world.WorldType;
 import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.WorldInfo;
 
-public class DemoWorldServer extends WorldServer
-{
-    private static final long demoWorldSeed = (long)"North Carolina".hashCode();
-    public static final WorldSettings demoWorldSettings = (new WorldSettings(demoWorldSeed, WorldSettings.GameType.SURVIVAL, true, false, WorldType.DEFAULT)).enableBonusChest();
-    private static final String __OBFID = "CL_00001428";
-
-    public DemoWorldServer(MinecraftServer server, ISaveHandler saveHandlerIn, WorldInfo worldInfoIn, int dimensionId, Profiler profilerIn)
-    {
-        super(server, saveHandlerIn, worldInfoIn, dimensionId, profilerIn);
-        this.worldInfo.populateFromWorldSettings(demoWorldSettings);
-    }
+public class DemoWorldServer extends WorldServer {
+	
+	private static final long demoWorldSeed = (long) "North Carolina".hashCode();
+	public static final WorldSettings demoWorldSettings = (new WorldSettings(demoWorldSeed, WorldSettings.GameType.SURVIVAL, true, false, WorldType.DEFAULT)).enableBonusChest();
+	private static final String __OBFID = "CL_00001428";
+	
+	public DemoWorldServer(MinecraftServer server, ISaveHandler saveHandlerIn, WorldInfo worldInfoIn, int dimensionId, Profiler profilerIn) {
+		super(server, saveHandlerIn, worldInfoIn, dimensionId, profilerIn);
+		this.worldInfo.populateFromWorldSettings(demoWorldSettings);
+	}
 }

@@ -8,21 +8,24 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.ShapedRecipes;
 
 public class PutItemsInCraftingTableObjective extends Objective {
+	
 	final ShapedRecipes recipe;
-
+	
 	public PutItemsInCraftingTableObjective(ShapedRecipes r) {
 		recipe = r;
 	}
-
-	public static int map(int id, int width, int height) {//If the recipe isn't 3x3, then do some super sketchy math
+	
+	public static int map(int id, int width, int height) {// If the recipe isn't
+															// 3x3, then do some
+															// super sketchy
+															// math
 		int yPos = id / width;
 		int xPos = id % width;
 		int z = xPos + 3 * yPos;
-		System.out.println("Mapping " + id + " in " + width + "," + height
-				+ " to " + xPos + "," + yPos + " with id " + z);
+		System.out.println("Mapping " + id + " in " + width + "," + height + " to " + xPos + "," + yPos + " with id " + z);
 		return z + 1;
 	}
-
+	
 	@Override
 	protected void doTick(Minecraft mc) {
 		if (mc.currentScreen instanceof GuiCrafting) {
@@ -36,17 +39,32 @@ public class PutItemsInCraftingTableObjective extends Objective {
 					ItemStack[] stacks = a.mainInventory;
 					boolean d = false;
 					for (int j = 0; j < stacks.length; j++) {
-						if (stacks[j] != null
-								&& stacks[j].getItem().equals(neededItem)) {
+						if (stacks[j] != null && stacks[j].getItem().equals(neededItem)) {
 							
-							s.handleMouseClick(null, j + 37, 0, 0);//Grab the item    Do not question the j+37. And if you value your life, do not change it.
-							s.handleMouseClick(
-									null,
-									map(i, recipe.recipeWidth,
-											recipe.recipeHeight), 1, 0);//Put in table with right click
-							s.handleMouseClick(null, j + 37, 0, 0);//Put leftovers back where they were
-							System.out.println(stacks[j] + " from " + j
-									+ " to " + i);
+							s.handleMouseClick(null, j + 37, 0, 0);// Grab the
+																	// item Do
+																	// not
+																	// question
+																	// the j+37.
+																	// And if
+																	// you value
+																	// your
+																	// life, do
+																	// not
+																	// change
+																	// it.
+							s.handleMouseClick(null, map(i, recipe.recipeWidth, recipe.recipeHeight), 1, 0);// Put
+																											// in
+																											// table
+																											// with
+																											// right
+																											// click
+							s.handleMouseClick(null, j + 37, 0, 0);// Put
+																	// leftovers
+																	// back
+																	// where
+																	// they were
+							System.out.println(stacks[j] + " from " + j + " to " + i);
 							d = true;
 							break;
 						}
@@ -61,8 +79,8 @@ public class PutItemsInCraftingTableObjective extends Objective {
 				s.handleMouseClick(null, 0, 0, 1);
 				System.out.println("STUFFFF");
 			}
-
+			
 		}
 	}
-
+	
 }

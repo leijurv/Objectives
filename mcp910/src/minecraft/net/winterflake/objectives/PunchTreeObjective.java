@@ -11,61 +11,57 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 
-public class PunchTreeObjective extends Objective{
+public class PunchTreeObjective extends Objective {
+	
 	static BlockPos closestTree;
 	static MovementObjective ct;
-	boolean isNearTree=false;
-
-static{
-	new Thread() {
-		public void run() {
-			while (true) {
-
-				try {
-					Thread.sleep(500);
-					if(closestTree!=null){
-						continue;
+	boolean isNearTree = false;
+	
+	static {
+		new Thread() {
+			
+			public void run() {
+				while (true) {
+					
+					try {
+						Thread.sleep(500);
+						if (closestTree != null) {
+							continue;
+						}
+						BlockPos t = findCraftingTable((int) Objectives.mc.thePlayer.posX, (int) Objectives.mc.thePlayer.posY, (int) Objectives.mc.thePlayer.posZ, Objectives.mc);
+						if (t != null) {
+							closestTree = t;
+							ct = new MovementObjective(10000, closestTree.getX(), closestTree.getY(), closestTree.getZ(), false);
+							System.out.println("Finished searching");
+							
+						}
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
-					BlockPos t = findCraftingTable(
-							(int) Objectives.mc.thePlayer.posX,
-							(int) Objectives.mc.thePlayer.posY,
-							(int) Objectives.mc.thePlayer.posZ,
-							Objectives.mc);
-					if (t != null) {
-						closestTree = t;
-						ct = new MovementObjective(10000,
-								closestTree.getX(), closestTree.getY(),
-								closestTree.getZ(),false);
-						System.out.println("Finished searching");
-						
-					}
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
 				}
 			}
-		}
-	}.start();
-}
+		}.start();
+	}
+	
 	@Override
 	protected void doTick(Minecraft mc) {
 		if (finished) {
 			System.out.println("WHAT");
 		}
-		if(isNearTree){
+		if (isNearTree) {
 			Objectives.isLeftClick = true;
-
-			LookAtBlockObjective.lookAtBlock(closestTree,
-					Objectives.mc.thePlayer);
-
+			
+			LookAtBlockObjective.lookAtBlock(closestTree, Objectives.mc.thePlayer);
+			
 			IBlockState dank = mc.theWorld.getBlockState(closestTree);
 			if (dank.getBlock().equals(Blocks.air)) {
 				System.out.println("Finished");
 				Objectives.isLeftClick = false;
 				finished = true;
-				closestTree=null;
-				isNearTree=false;
-				ct=null;
+				closestTree = null;
+				isNearTree = false;
+				ct = null;
 			} else {
 				// System.out.println(dank.getBlock());
 			}
@@ -74,13 +70,13 @@ static{
 		if (ct != null) {
 			if (!ct.onTick(mc)) {
 				System.out.println("Get wit fi");
-				isNearTree=true;
+				isNearTree = true;
 			}
 		}
 		
 	}
-	public static BlockPos findCraftingTable(int curX, int curY, int curZ,
-			Minecraft mc) {
+	
+	public static BlockPos findCraftingTable(int curX, int curY, int curZ, Minecraft mc) {
 		int s = 20;
 		for (int x = curX - s; x <= curX + s; x++) {
 			for (int y = curY - s; y <= curY + s; y++) {

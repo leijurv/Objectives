@@ -12,56 +12,49 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.world.World;
 
-public class BlockWeb extends Block
-{
-    private static final String __OBFID = "CL_00000333";
-
-    public BlockWeb()
-    {
-        super(Material.web);
-        this.setCreativeTab(CreativeTabs.tabDecorations);
-    }
-
-    /**
-     * Called When an Entity Collided with the Block
-     */
-    public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn)
-    {
-        entityIn.setInWeb();
-    }
-
-    public boolean isOpaqueCube()
-    {
-        return false;
-    }
-
-    public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state)
-    {
-        return null;
-    }
-
-    public boolean isFullCube()
-    {
-        return false;
-    }
-
-    /**
-     * Get the Item that this Block should drop when harvested.
-     *  
-     * @param fortune the level of the Fortune enchantment on the player's tool
-     */
-    public Item getItemDropped(IBlockState state, Random rand, int fortune)
-    {
-        return Items.string;
-    }
-
-    protected boolean canSilkHarvest()
-    {
-        return true;
-    }
-
-    public EnumWorldBlockLayer getBlockLayer()
-    {
-        return EnumWorldBlockLayer.CUTOUT;
-    }
+public class BlockWeb extends Block {
+	
+	private static final String __OBFID = "CL_00000333";
+	
+	public BlockWeb() {
+		super(Material.web);
+		this.setCreativeTab(CreativeTabs.tabDecorations);
+	}
+	
+	/**
+	 * Called When an Entity Collided with the Block
+	 */
+	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
+		entityIn.setInWeb();
+	}
+	
+	public boolean isOpaqueCube() {
+		return false;
+	}
+	
+	public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
+		return null;
+	}
+	
+	public boolean isFullCube() {
+		return false;
+	}
+	
+	/**
+	 * Get the Item that this Block should drop when harvested.
+	 * 
+	 * @param fortune
+	 *            the level of the Fortune enchantment on the player's tool
+	 */
+	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+		return Items.string;
+	}
+	
+	protected boolean canSilkHarvest() {
+		return true;
+	}
+	
+	public EnumWorldBlockLayer getBlockLayer() {
+		return EnumWorldBlockLayer.CUTOUT;
+	}
 }

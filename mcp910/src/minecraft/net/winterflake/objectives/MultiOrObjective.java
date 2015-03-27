@@ -7,10 +7,11 @@ import java.util.ArrayList;
  * @author leijurv
  */
 public abstract class MultiOrObjective extends MultiObjective {
+	
 	public MultiOrObjective(ArrayList<Objective> childObjectives) {
 		super(childObjectives);
 	}
-
+	
 	/**
 	 * The difficulty of an objective where any of the options can be used is
 	 * the difficulty of the easiest option
