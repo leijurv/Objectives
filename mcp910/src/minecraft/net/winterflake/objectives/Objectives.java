@@ -19,7 +19,7 @@ import net.minecraft.util.Vec3;
  * @author leijurv
  */
 public class Objectives {
-
+	
 	static public Minecraft mc;
 	public static boolean isRightClick = false;
 	public static int pressTime = 0;
@@ -31,7 +31,7 @@ public class Objectives {
 	public static TopLevelObjective main = null;
 	public static boolean alr = false;
 	public static boolean wasScreen = false;
-
+	
 	public static void onTick() {
 		if (main == null) {
 			reset();
@@ -45,7 +45,7 @@ public class Objectives {
 			if (wasScreen) {
 				wasScreen = false;
 				pressTime = -10;
-
+				
 			}
 		}
 		if (pressTime < 0) {
@@ -53,27 +53,27 @@ public class Objectives {
 		}
 		if (isLeftClick && mc.currentScreen == null)
 			pressTime++;
-
+		
 		// if(isLeftClick) mc.clickMouse();
 		// System.out.println(mc.currentScreen+","+(mc.currentScreen instanceof
 		// GuiCrafting));
-
+		
 		if (mc.currentScreen == null) {
 			alr = false;
 		}
 		// isLeftClick=false;
-
+		
 		if (!main.onTick(mc)) {
 			reset();
 		}
 		// System.out.println(isLeftClick + "," + pressTime);
-
+		
 	}
-
+	
 	public static boolean getIsPressed() {
 		return isLeftClick && mc.currentScreen == null && pressTime > -2;
 	}
-
+	
 	public static boolean isPressed() {
 		if (pressTime <= 0) {
 			return false;
@@ -82,7 +82,7 @@ public class Objectives {
 			return true;
 		}
 	}
-
+	
 	/**
 	 * @param args
 	 *            the command line arguments
@@ -117,6 +117,7 @@ public class Objectives {
 		 * } } }.start();
 		 */
 	}
+	
 	public static void reset() {
 		
 		craftingTable = null;
@@ -124,7 +125,8 @@ public class Objectives {
 		dank.add(AquireItemObjective.getAquireItemObjective(new ItemStack(Items.wooden_pickaxe, 1), true));
 		// dank.add(new GetToCraftingTableObjective());
 		dank.add(new DoMineBlockObjective(1, 2, 3, null));
-		//		dank.add(AquireItemObjective.getAquireItemObjective(new ItemStack(Blocks.log,1),true));
+		// dank.add(AquireItemObjective.getAquireItemObjective(new
+		// ItemStack(Blocks.log,1),true));
 		main = new TopLevelObjective(dank, 1);
 	}
 }

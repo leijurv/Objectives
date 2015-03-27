@@ -15,30 +15,26 @@ import net.minecraft.util.Vec3;
  * @author leijurv
  */
 public class GetToCraftingTableObjective extends Objective implements Parent {
+	
 	static boolean hasCraftingTable = true;
 	private AquireItemObjective craftingtable;
 	private BlockPos craftingTable;
 	private MovementObjective ct;
 	private boolean rightClicked = false;
-
+	
 	public GetToCraftingTableObjective() {
 		new Thread() {
+			
 			public void run() {
 				while (true) {
-
+					
 					try {
 						Thread.sleep(500);
-						BlockPos t = findCraftingTable(
-								(int) Objectives.mc.thePlayer.posX,
-								(int) Objectives.mc.thePlayer.posY,
-								(int) Objectives.mc.thePlayer.posZ,
-								Objectives.mc);
+						BlockPos t = findCraftingTable((int) Objectives.mc.thePlayer.posX, (int) Objectives.mc.thePlayer.posY, (int) Objectives.mc.thePlayer.posZ, Objectives.mc);
 						if (t != null) {
 							craftingTable = t;
 							Objectives.craftingTable = craftingTable;
-							ct = new MovementObjective(10000,
-									craftingTable.getX(), craftingTable.getY(),
-									craftingTable.getZ());
+							ct = new MovementObjective(10000, craftingTable.getX(), craftingTable.getY(), craftingTable.getZ());
 							System.out.println("Finished searching");
 							break;
 						}
@@ -50,21 +46,20 @@ public class GetToCraftingTableObjective extends Objective implements Parent {
 			}
 		}.start();
 		if (!hasCraftingTable) {
-			craftingtable = AquireItemObjective.getAquireItemObjective(
-					new ItemStack(Blocks.crafting_table, 1), false);
+			craftingtable = AquireItemObjective.getAquireItemObjective(new ItemStack(Blocks.crafting_table, 1), false);
 		}
 	}
-
+	
 	@Override
 	public boolean equals(Object o) {
 		return o instanceof GetToCraftingTableObjective;
 	}
-
+	
 	@Override
 	public int hashCode() {
 		return 0;
 	}
-
+	
 	@Override
 	public double getDifficulty() {
 		if (hasCraftingTable) {
@@ -73,7 +68,7 @@ public class GetToCraftingTableObjective extends Objective implements Parent {
 		System.out.println("oaeuaoeuaeoauoe");
 		return craftingtable.getDifficulty();
 	}
-
+	
 	@Override
 	public double getPriority(Objective o) {
 		if (hasChild(o)) {
@@ -81,12 +76,12 @@ public class GetToCraftingTableObjective extends Objective implements Parent {
 		}
 		return 0;
 	}
-
+	
 	@Override
 	public boolean hasChild(Objective child) {
 		return craftingtable.equals(child);
 	}
-
+	
 	@Override
 	protected void doTick(Minecraft mc) {
 		if (finished) {
@@ -94,14 +89,14 @@ public class GetToCraftingTableObjective extends Objective implements Parent {
 		}
 		if (rightClicked) {
 			if (mc.currentScreen instanceof GuiCrafting) {
-
+				
 				System.out.println("Finished with crafting");
 				finished = true;
 				rightClicked = false;
 			} else {
 				System.out.println(mc.currentScreen);
 			}
-
+			
 			return;
 		}
 		if (ct != null) {
@@ -109,13 +104,12 @@ public class GetToCraftingTableObjective extends Objective implements Parent {
 				System.out.println("Get wit fi");
 				new RightClickObjective().onTick(mc);
 				rightClicked = true;
-
+				
 			}
 		}
 	}
-
-	public static BlockPos findCraftingTable(int curX, int curY, int curZ,
-			Minecraft mc) {
+	
+	public static BlockPos findCraftingTable(int curX, int curY, int curZ, Minecraft mc) {
 		int s = 20;
 		for (int x = curX - s; x <= curX + s; x++) {
 			for (int y = curY - s; y <= curY + s; y++) {

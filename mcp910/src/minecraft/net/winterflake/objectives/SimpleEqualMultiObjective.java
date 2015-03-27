@@ -7,10 +7,11 @@ import java.util.ArrayList;
  * @author leijurv
  */
 public class SimpleEqualMultiObjective extends MultiAndObjective {
+	
 	public SimpleEqualMultiObjective(ArrayList<Objective> childObjectives) {
 		super(childObjectives);
 	}
-
+	
 	@Override
 	public double getPriority(Objective o) {
 		// System.out.println(this + "is calculating priority for child" + o);
@@ -22,12 +23,11 @@ public class SimpleEqualMultiObjective extends MultiAndObjective {
 		System.out.println("not child");
 		return 0;
 	}
-
+	
 	@Override
 	public boolean equals(Object o) {
 		if (o instanceof SimpleEqualMultiObjective) {
-			return ((SimpleEqualMultiObjective) o).childObjectives
-					.equals(childObjectives);
+			return ((SimpleEqualMultiObjective) o).childObjectives.equals(childObjectives);
 		}
 		return false;
 	}

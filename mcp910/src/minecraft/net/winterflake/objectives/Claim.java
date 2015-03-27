@@ -13,34 +13,34 @@ import net.minecraft.item.ItemStack;
  * @author leijurv
  */
 public class Claim implements Comparable {
+	
 	final ItemStack item;
 	final AquireItemObjective objective;
 	private volatile int completion;
 	static HashMap<Item, ArrayList<Claim>> claimList = new HashMap<>();
-
+	
 	public Claim(AquireItemObjective obj) {
 		objective = obj;
 		item = obj.item;
 		registerClaim(this);
 	}
-
+	
 	@Override
 	public int compareTo(Object o) {
 		System.out.println("Comparing " + this + " to " + o);
-		return new Double(objective.getPriority())
-				.compareTo(((Claim) o).objective.getPriority());
+		return new Double(objective.getPriority()).compareTo(((Claim) o).objective.getPriority());
 		// Compare priorities not adjusted priorities, because adjusted
 		// priorities are derived from completion percentage
 	}
-
+	
 	public int getAmountCompleted() {
 		return completion;
 	}
-
+	
 	private void onFufill(int amountFufilled) {
 		completion -= amountFufilled;
 	}
-
+	
 	/**
 	 * Register a claim into the queue for its itemID
 	 *
@@ -53,7 +53,7 @@ public class Claim implements Comparable {
 		}
 		claimList.get(claim.item.getItem()).add(claim);
 	}
-
+	
 	/**
 	 * Get the claim with the highest priority in the queue for the given itemID
 	 *
@@ -71,7 +71,7 @@ public class Claim implements Comparable {
 									// Comparable
 		return possibilities.get(possibilities.size() - 1);
 	}
-
+	
 	/**
 	 * When a new item stack enters the inventory this is called to see if there
 	 * are any claims for it.
@@ -90,7 +90,7 @@ public class Claim implements Comparable {
 		claim.onFufill(amount);
 		return true;
 	}
-
+	
 	public String toString() {
 		return item + "$" + objective.getAdjustedPriority();
 	}
