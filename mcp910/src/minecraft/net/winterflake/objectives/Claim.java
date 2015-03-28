@@ -107,8 +107,6 @@ public class Claim {
 		completion += remaining;
 		amount -= remaining;
 		completed = true;
-		// TODO remove self from list of outstanding claims, because I have been
-		// completely fufilled.
 		return amount;
 	}
 	
@@ -154,20 +152,21 @@ public class Claim {
 	 *            The itemID
 	 * @param amount
 	 *            The amount
-	 * @return Whether the item stack was claimed
+	 * @return How many items were claimed
 	 */
-	public static boolean onItemStack(ItemStack item) {
+	public static int onItemStack(ItemStack item) {
 		Claim claim = getHighestPriorityClaim(item.getItem());
 		if (claim == null || item.stackSize == 0)
-			return false;
+			return 0;
 		
 		int remaining = claim.onFufill(item.stackSize);
-		if (remaining == 0)
-			return true;
-		
+		int amountClaimed = item.stackSize - remaining;
+		if (remaining == 0) {// The claim was fufilled
+			claimList.get(item.getItem()).remove(claim);
+			return amountClaimed;
+		}
 		ItemStack stack = new ItemStack(item.getItem(), remaining, item.getMetadata());
-		onItemStack(stack);
-		return true;
+		return onItemStack(stack) + amountClaimed;
 	}
 	
 	public String toString() {
