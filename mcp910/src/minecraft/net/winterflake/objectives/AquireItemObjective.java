@@ -64,6 +64,9 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
 	 */
 	public static ArrayList<Objective> howToGet(ItemStack item) {
 		ArrayList<Objective> possibilities = new ArrayList<Objective>();
+		if (checkFinished(Objectives.mc, item)) {
+			return possibilities;
+		}
 		List<IRecipe> l = CraftingManager.getInstance().getRecipeList();
 		for (IRecipe r : l) {
 			if (r != null && r.getRecipeOutput() != null) {
@@ -99,10 +102,19 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
 		return super.onTick(mc);
 	}
 	
-	public boolean checkFinished(Minecraft mc, ItemStack item) {
-		if (mc.thePlayer == null)
+	public static boolean checkFinished(Minecraft mc, ItemStack item) {
+		if (mc.thePlayer == null) {
 			return true;
-		return claim.getAmountCompleted() == item.stackSize;
+		}
+		for (ItemStack a : mc.thePlayer.inventory.mainInventory) {
+			if (a != null) {
+				if (Item.getIdFromItem(item.getItem()) == Item.getIdFromItem(a.getItem()) && item.stackSize <= a.stackSize) {
+					System.out.println("Finished because already has " + item);
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	
 }

@@ -36,12 +36,10 @@ public class Objectives {
 	public static boolean wasScreen = false;
 	
 	public static void onTick() {
-		if (main == null) {
+		if (main == null)
 			reset();
-		}
-		if (mc.theWorld == null || mc.thePlayer == null) {
+		if (mc.theWorld == null || mc.thePlayer == null)
 			return;
-		}
 		if (mc.currentScreen != null) {
 			wasScreen = true;
 		} else {
@@ -102,7 +100,9 @@ public class Objectives {
 	 */
 	public Objectives(Minecraft mcIn) {
 		mc = mcIn;
+		
 		EventManager.addListener(new ClaimListener());
+		
 		/*
 		 * new Thread(){ public void run(){ while(true){ try{
 		 * Thread.sleep(5000); System.out.println("Dropping");
