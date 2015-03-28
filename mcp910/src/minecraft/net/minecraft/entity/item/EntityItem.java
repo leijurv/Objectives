@@ -1,6 +1,7 @@
 package net.minecraft.entity.item;
 
 import java.util.Iterator;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,6 +16,9 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+import net.winterflake.event.EventManager;
+import net.winterflake.event.PlayerItemPickupEvent;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -304,8 +308,8 @@ public class EntityItem extends Entity {
 		if (!this.worldObj.isRemote) {
 			ItemStack var2 = this.getEntityItem();
 			int var3 = var2.stackSize;
-			
 			if (this.delayBeforeCanPickup == 0 && (this.owner == null || 6000 - this.age <= 200 || this.owner.equals(entityIn.getName())) && entityIn.inventory.addItemStackToInventory(var2)) {
+				EventManager.handleEvent(new PlayerItemPickupEvent(this, entityIn));
 				if (var2.getItem() == Item.getItemFromBlock(Blocks.log)) {
 					entityIn.triggerAchievement(AchievementList.mineWood);
 				}
