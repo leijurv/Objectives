@@ -72,10 +72,20 @@ public class Objectives {
 		
 	}
 	
+	/**
+	 * Do not question the logic
+	 * 
+	 * @return
+	 */
 	public static boolean getIsPressed() {
 		return isLeftClick && mc.currentScreen == null && pressTime > -2;
 	}
 	
+	/**
+	 * Do not question the logic
+	 * 
+	 * @return
+	 */
 	public static boolean isPressed() {
 		if (pressTime <= 0) {
 			return false;

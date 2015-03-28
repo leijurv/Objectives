@@ -15,10 +15,18 @@ public class PutItemsInCraftingTableObjective extends Objective {
 		recipe = r;
 	}
 	
-	public static int map(int id, int width, int height) {// If the recipe isn't
-															// 3x3, then do some
-															// super sketchy
-															// math
+	/**
+	 * If the recipe isn't 3x3, then do some super sketchy math
+	 * 
+	 * @param id
+	 *            position in crafting grid
+	 * @param width
+	 *            width of crafting grid
+	 * @param height
+	 *            height of crafting grid
+	 * @return result of sketchy math
+	 */
+	public static int map(int id, int width, int height) {
 		int yPos = id / width;
 		int xPos = id % width;
 		int z = xPos + 3 * yPos;

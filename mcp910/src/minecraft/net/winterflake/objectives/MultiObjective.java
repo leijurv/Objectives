@@ -63,6 +63,9 @@ public abstract class MultiObjective extends Objective implements Parent {
 		return childObjectives.contains(child);
 	}
 	
+	/**
+	 * Go through each child objective sequentially
+	 */
 	public void doTick(Minecraft mc) {
 		if (position >= childObjectives.size()) {
 			System.out.println("Finished totally");

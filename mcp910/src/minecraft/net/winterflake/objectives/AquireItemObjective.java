@@ -89,7 +89,7 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
 	/**
 	 * What percentage done is this aquireitemobjective
 	 * 
-	 * @return
+	 * @return the completion, on a range of from 0 to 1
 	 */
 	public double getCompletionPercentage() {
 		return ((double) claim.getAmountCompleted()) / ((double) item.stackSize);
