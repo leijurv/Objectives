@@ -15,9 +15,9 @@ import net.minecraft.item.crafting.IRecipe;
 /**
  *This class represents objectives that consist of obtaining items. This objective can be used as a child objective or as a final objective.
  * 
- * @author Leif Jurvetson
- * @author Mickey Daras
- * @author Avery Cowan
+ * @author leijurv
+ * @author howardstark
+ * @author ave4224
  */
 public class AquireItemObjective extends HighPriorityMultiOrObjective {
 	
