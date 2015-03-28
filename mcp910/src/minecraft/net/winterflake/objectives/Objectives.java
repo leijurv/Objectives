@@ -1,6 +1,7 @@
 package net.winterflake.objectives;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
@@ -9,6 +10,7 @@ import net.minecraft.client.gui.inventory.GuiCrafting;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ContainerWorkbench;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
@@ -122,7 +124,7 @@ public class Objectives {
 		
 		craftingTable = null;
 		ArrayList<Objective> dank = new ArrayList<Objective>();
-		dank.add(AquireItemObjective.getAquireItemObjective(new ItemStack(Items.stone_pickaxe, 1), true));
+		dank.add(AquireItemObjective.getAquireItemObjective(new ItemStack(Items.stone_pickaxe, 1), Need.SINGLE));
 		// dank.add(new GetToCraftingTableObjective());
 		dank.add(new DoMineBlockObjective(1, 2, 3, null));
 		// dank.add(AquireItemObjective.getAquireItemObjective(new

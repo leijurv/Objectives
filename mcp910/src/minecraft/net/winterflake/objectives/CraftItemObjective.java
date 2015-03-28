@@ -49,7 +49,7 @@ public class CraftItemObjective extends MultiAndObjective {
 				}
 			}
 			for (int j = 0; j < items.size(); j++) {
-				input.add(AquireItemObjective.getAquireItemObjective(new ItemStack(items.get(j), amounts.get(j)), true));
+				input.add(AquireItemObjective.getAquireItemObjective(new ItemStack(items.get(j), amounts.get(j)), Need.SINGLE));
 			}
 			
 		}
