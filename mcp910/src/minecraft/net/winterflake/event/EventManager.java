@@ -7,7 +7,7 @@ import java.util.HashMap;
 public abstract class EventManager {
 	private static ArrayList<PlayerItemPickupEventListener> playerItemPickupListeners = new ArrayList<PlayerItemPickupEventListener>();
 	
-	public void addListener(EventListener listener){
+	public static void addListener(EventListener listener){
 		if(listener instanceof PlayerItemPickupEventListener)
 			playerItemPickupListeners.add((PlayerItemPickupEventListener) listener);
 	}

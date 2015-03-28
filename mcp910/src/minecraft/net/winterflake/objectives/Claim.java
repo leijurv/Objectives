@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.winterflake.event.EventManager;
 
 /**
  * An AquireItemObjective can "claim" an item as soon as it comes into the
