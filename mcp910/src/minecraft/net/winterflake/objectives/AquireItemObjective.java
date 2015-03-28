@@ -13,44 +13,44 @@ import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 
 /**
- *
- * @author leijurv
+ *This class represents objectives that consist of obtaining items. This objective can be used as a child objective or as a final objective.
+ * 
+ * @author Leif Jurvetson
+ * @author Mickey Daras
+ * @author Avery Cowan
  */
 public class AquireItemObjective extends HighPriorityMultiOrObjective {
 	
+	final Need need;
 	final ItemStack item;
 	final Claim claim;
+	static final HashMap<Item, ArrayList<AquireItemObjective>> statics = new HashMap<Item, ArrayList<AquireItemObjective>>();
 	
-	private AquireItemObjective(ItemStack item) {
-		super(howToGet(item));
-		this.item = item;
+	private AquireItemObjective(ItemStack itemstack, Need needtype) {
+		super(howToGet(itemstack));//init
+		this.item = itemstack;
+		this.need = needtype;
+		if(statics.get(item.getItem()) == null)
+			statics.put(item.getItem(), new ArrayList<AquireItemObjective>());
+		
+		statics.get(item.getItem()).add(this);
 		claim = new Claim(this);
 	}
-	
-	private static final HashMap<Item, AquireItemObjective> statics = new HashMap<Item, AquireItemObjective>();
 	
 	/**
 	 * A static method to create AquireItemObjectives
 	 * 
-	 * @param itemID
-	 *            the item id
-	 * @param amount
-	 *            the amount
+	 * @param item
+	 *            an ItemStack containing the type and amount needed
 	 * @param need
 	 *            whether the item will be used up (used in crafting), or can be
 	 *            used multiple times (like a crafting table)
 	 * @return
 	 */
-	public static AquireItemObjective getAquireItemObjective(ItemStack item, boolean need) {
-		if (need) {
-			return new AquireItemObjective(item);
-		}
-		if (statics.get(item.getItem()) != null) {
-			return statics.get(item.getItem());
-		}
-		AquireItemObjective o = new AquireItemObjective(item);
-		statics.put(item.getItem(), o);
-		return o;
+	public static AquireItemObjective getAquireItemObjective(ItemStack item, Need need) {
+		if(item == null || item.getItem() == null || need == null)
+			return null;
+		return new AquireItemObjective(item, need);
 	}
 	
 	@Override
@@ -108,3 +108,8 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
 	}
 	
 }
+/**
+ * This enum represents whether the required item for an <code>AquireItemObjective</code> will be used up (used in crafting), or can be used multiple times (like a crafting table)
+ *
+ */
+enum Need {MULTI,SINGLE}

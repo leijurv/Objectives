@@ -46,7 +46,7 @@ public class GetToCraftingTableObjective extends Objective implements Parent {
 			}
 		}.start();
 		if (!hasCraftingTable) {
-			craftingtable = AquireItemObjective.getAquireItemObjective(new ItemStack(Blocks.crafting_table, 1), false);
+			craftingtable = AquireItemObjective.getAquireItemObjective(new ItemStack(Blocks.crafting_table, 1), Need.MULTI);
 		}
 	}
 	
