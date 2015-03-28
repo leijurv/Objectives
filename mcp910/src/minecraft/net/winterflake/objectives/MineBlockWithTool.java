@@ -26,7 +26,7 @@ public class MineBlockWithTool extends MultiAndObjective {
 	
 	public static ArrayList<Objective> create(int x, int y, int z, Item itemType) {
 		ArrayList<Objective> res = new ArrayList<>();
-		AquireItemObjective item = AquireItemObjective.getAquireItemObjective(new ItemStack(itemType, 1), false);
+		AquireItemObjective item = AquireItemObjective.getAquireItemObjective(new ItemStack(itemType, 1), Need.MULTI);
 		res.add(item);// Aquire the tool needed
 		res.add(new MovementObjective(10000, x, y, z, true));
 		res.add(new LookAtBlockObjective(x, y, z));

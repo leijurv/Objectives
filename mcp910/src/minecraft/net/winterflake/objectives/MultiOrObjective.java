@@ -21,12 +21,8 @@ public abstract class MultiOrObjective extends MultiObjective {
 	@Override
 	public double getDifficulty() {
 		double min = -1;
-		for (Objective child : childObjectives) {
-			double d = child.getDifficulty();
-			if (min == -1 || d < min) {
-				min = d;
-			}
-		}
+		for (Objective child : childObjectives)
+			min = Math.min(min, child.getDifficulty());
 		return min;
 	}
 }
