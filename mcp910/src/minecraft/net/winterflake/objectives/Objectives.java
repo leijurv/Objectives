@@ -15,6 +15,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
+import net.winterflake.event.EventManager;
 
 /**
  *
@@ -134,6 +135,9 @@ public class Objectives {
 		
 		craftingTable = null;
 		ArrayList<Objective> dank = new ArrayList<Objective>();
+		
+		EventManager.addListener(new ClaimListener());
+		
 		dank.add(AquireItemObjective.getAquireItemObjective(new ItemStack(Items.stone_pickaxe, 1), Need.SINGLE));
 		// dank.add(new GetToCraftingTableObjective());
 		dank.add(new DoMineBlockObjective(1, 2, 3, null));
