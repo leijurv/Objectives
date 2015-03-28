@@ -23,6 +23,10 @@ public class GetToCraftingTableObjective extends Objective implements Parent {
 	private boolean rightClicked = false;
 	
 	public GetToCraftingTableObjective() {
+		final GetToCraftingTableObjective reference = this;// Used lower down in
+															// thread, the
+															// thread needs a
+															// referente to this
 		new Thread() {
 			
 			public void run() {
@@ -35,6 +39,7 @@ public class GetToCraftingTableObjective extends Objective implements Parent {
 							craftingTable = t;
 							Objectives.craftingTable = craftingTable;
 							ct = new MovementObjective(10000, craftingTable.getX(), craftingTable.getY(), craftingTable.getZ());
+							ct.registerParent(reference);
 							System.out.println("Finished searching");
 							break;
 						}
@@ -47,6 +52,7 @@ public class GetToCraftingTableObjective extends Objective implements Parent {
 		}.start();
 		if (!hasCraftingTable) {
 			craftingtable = AquireItemObjective.getAquireItemObjective(new ItemStack(Blocks.crafting_table, 1), Need.MULTI);
+			craftingtable.registerParent(this);
 		}
 	}
 	
@@ -57,7 +63,8 @@ public class GetToCraftingTableObjective extends Objective implements Parent {
 	
 	@Override
 	public int hashCode() {
-		return 0;
+		return 0;// All getToCraftingTable objectives are the same, so it
+					// implements hashcode to satisfy the contract
 	}
 	
 	@Override
@@ -79,7 +86,7 @@ public class GetToCraftingTableObjective extends Objective implements Parent {
 	
 	@Override
 	public boolean hasChild(Objective child) {
-		return craftingtable.equals(child);
+		return child.equals(craftingtable) || child.equals(ct);
 	}
 	
 	@Override
@@ -109,6 +116,20 @@ public class GetToCraftingTableObjective extends Objective implements Parent {
 		}
 	}
 	
+	/**
+	 * Find a crafting table within 20 blocks of the specified coordinates
+	 * 
+	 * @param curX
+	 *            x coordinate
+	 * @param curY
+	 *            y coordinate
+	 * @param curZ
+	 *            z coordinate
+	 * @param mc
+	 *            minecraft object
+	 * @return a crafting table within 20 blocks (not necesarily closest), or
+	 *         null if there aren't any
+	 */
 	public static BlockPos findCraftingTable(int curX, int curY, int curZ, Minecraft mc) {
 		int s = 20;
 		for (int x = curX - s; x <= curX + s; x++) {

@@ -14,6 +14,9 @@ public class HighPriorityMultiOrObjective extends MultiOrObjective {
 	
 	@Override
 	public double getPriority(Objective o) {
+		if (!hasChild(o)) {
+			return 0;
+		}
 		double oDiff = o.getDifficulty();
 		for (Objective c : childObjectives) {
 			if (!c.equals(o)) {

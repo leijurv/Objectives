@@ -31,6 +31,10 @@ public abstract class BaseObjective extends Objective {
 		return difficulty;
 	}
 	
+	/**
+	 * Reclaculate the difficulty for this baseobjective. Multithreaded because
+	 * this might take a long time if it's something like pathfinding
+	 */
 	public void recalculateDiff() {
 		if (!currentlyCalculating) {
 			lastUpdate = System.currentTimeMillis();

@@ -13,7 +13,8 @@ import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 
 /**
- *This class represents objectives that consist of obtaining items. This objective can be used as a child objective or as a final objective.
+ * This class represents objectives that consist of obtaining items. This
+ * objective can be used as a child objective or as a final objective.
  * 
  * @author leijurv
  * @author howardstark
@@ -24,16 +25,11 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
 	final Need need;
 	final ItemStack item;
 	final Claim claim;
-	static final HashMap<Item, ArrayList<AquireItemObjective>> statics = new HashMap<Item, ArrayList<AquireItemObjective>>();
 	
 	private AquireItemObjective(ItemStack itemstack, Need needtype) {
-		super(howToGet(itemstack));//init
+		super(howToGet(itemstack));// init
 		this.item = itemstack;
 		this.need = needtype;
-		if(statics.get(item.getItem()) == null)
-			statics.put(item.getItem(), new ArrayList<AquireItemObjective>());
-		
-		statics.get(item.getItem()).add(this);
 		claim = new Claim(this);
 	}
 	
@@ -48,7 +44,7 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
 	 * @return
 	 */
 	public static AquireItemObjective getAquireItemObjective(ItemStack item, Need need) {
-		if(item == null || item.getItem() == null || need == null)
+		if (item == null || item.getItem() == null || need == null)
 			return null;
 		return new AquireItemObjective(item, need);
 	}
@@ -58,6 +54,14 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
 		return (1 - getCompletionPercentage()) * super.getDifficulty();
 	}
 	
+	/**
+	 * What Objectives are possible ways to get the specified item
+	 * 
+	 * @param item
+	 *            the item
+	 * @return possible ways to get it. consists of newly instantiated
+	 *         objectives.
+	 */
 	public static ArrayList<Objective> howToGet(ItemStack item) {
 		ArrayList<Objective> possibilities = new ArrayList<Objective>();
 		if (checkFinished(Objectives.mc, item)) {
@@ -73,6 +77,7 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
 				}
 			}
 		}
+		// TODO have some system for custom ones. IDK how that could work
 		System.out.println(Block.getIdFromBlock(Blocks.log) + " " + Item.getIdFromItem(item.getItem()) + " " + item + " " + item.getItem());
 		if (Block.getIdFromBlock(Blocks.log) == Item.getIdFromItem(item.getItem())) {
 			possibilities.add(new PunchTreeObjective());
@@ -81,6 +86,11 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
 		return possibilities;
 	}
 	
+	/**
+	 * What percentage done is this aquireitemobjective
+	 * 
+	 * @return
+	 */
 	public double getCompletionPercentage() {
 		return ((double) claim.getAmountCompleted()) / ((double) item.stackSize);
 	}
@@ -108,8 +118,14 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
 	}
 	
 }
+
 /**
- * This enum represents whether the required item for an <code>AquireItemObjective</code> will be used up (used in crafting), or can be used multiple times (like a crafting table)
+ * This enum represents whether the required item for an
+ * <code>AquireItemObjective</code> will be used up (used in crafting), or can
+ * be used multiple times (like a crafting table)
  *
  */
-enum Need {MULTI,SINGLE}
+enum Need {
+	MULTI, // Can be used multiple times, like a furnace or crafting table
+	SINGLE // Will be used up, like an iron ingot
+}

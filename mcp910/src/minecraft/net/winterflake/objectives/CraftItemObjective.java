@@ -11,7 +11,7 @@ import net.minecraft.item.crafting.ShapedRecipes;
  *
  * @author leijurv
  */
-public class CraftItemObjective extends MultiAndObjective {
+public class CraftItemObjective extends SimpleEqualMultiObjective {
 	
 	final ItemStack item;
 	final IRecipe recipe;
@@ -22,6 +22,18 @@ public class CraftItemObjective extends MultiAndObjective {
 		this.item = item;
 	}
 	
+	/**
+	 * Get all the objectives needed to craft this item. Generally
+	 * AquireItemObjectives for the ingredients, a GetToCraftingTableObjective,
+	 * a PutItemsInCraftingTableObjective, and a CloseObjective
+	 * 
+	 * @param recipe
+	 *            the recipe
+	 * @param item
+	 *            the result of the recipe, needed to see how many copios are
+	 *            being created
+	 * @return
+	 */
 	public static ArrayList<Objective> getRequirements(IRecipe recipe, ItemStack item) {
 		ArrayList<Objective> input = new ArrayList<>();
 		int stackSize = item.stackSize;
@@ -63,23 +75,17 @@ public class CraftItemObjective extends MultiAndObjective {
 		return input;
 	}
 	
+	/**
+	 * Does this recipe require a crafting table?
+	 * 
+	 * @param recipe
+	 *            The recipe
+	 * @return Whether it needs a crafting table
+	 */
 	public static boolean requiresCraftingTable(IRecipe recipe) {
 		if (recipe.getRecipeSize() > 4)
 			return true;
 		return false;
 	}
 	
-	@Override
-	public double getPriority(Objective o) {
-		return 1; // To
-					// change
-					// body
-					// of
-					// generated
-					// methods,
-					// choose
-					// Tools
-					// |
-					// Templates.
-	}
 }

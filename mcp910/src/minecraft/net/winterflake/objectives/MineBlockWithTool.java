@@ -6,7 +6,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 /**
- *
+ * TODO make this class work
+ * 
  * @author leijurv
  */
 public class MineBlockWithTool extends MultiAndObjective {
