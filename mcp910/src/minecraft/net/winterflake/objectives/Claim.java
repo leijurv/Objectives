@@ -17,13 +17,14 @@ import net.minecraft.item.ItemStack;
 public class Claim{
 	
 	final Need need;
-	final ItemStack item;
+	private final ItemStack item;
 	final AquireItemObjective aio;
+	private volatile boolean completed;//Helper variable, not completely needed
 	private volatile int completion;
 	/**
 	 * This is a <code>HashMap</code> of every outstanding claim of items.
 	 */
-	static HashMap<Item, ArrayList<Claim>> claimList = new HashMap<>();
+	private static HashMap<Item, ArrayList<Claim>> claimList = new HashMap<>();
 	
 	public Claim(AquireItemObjective objective) {
 		aio = objective;
@@ -31,6 +32,7 @@ public class Claim{
 		need = aio.need;
 		completion = 0;
 		registerClaim(this);
+		completed=false;
 	}
 	
 //	@Override
@@ -44,11 +46,46 @@ public class Claim{
 //		// Compare priorities not adjusted priorities, because adjusted
 //		// priorities are derived from completion percentage
 //	}
-	
+	/**
+	 * How many items have been completed already
+	 * @return how many items have been completed already
+	 */
 	public int getAmountCompleted() {
 		return completion;
 	}
-	
+	/**
+	 * Get the item claimed
+	 * @return the item
+	 */
+	public Item getItem(){
+		return item.getItem();
+	}
+	/**
+	 * Get the stack size of the item claimed
+	 * @return the stack size
+	 */
+	public int getStackSize(){
+		return item.stackSize;
+	}
+	/**
+	 * Is this claim completely fufilled?
+	 * 
+	 * @return whether it's finished
+	 */
+	public boolean isFinished(){
+		if(completion==item.stackSize){
+			completed=true;
+			return true;
+		}
+		completed=false;
+		return false;
+	}
+	/**
+	 * Called when this claim is fully or partially filled by items entering the inventory
+	 * 
+	 * @param amount The amount of items fufilled
+	 * @return The amount leftover after this claim takes what it can. A return of 0 means that this claim took all the fufilled items, a nonzero return means that some were leftover
+	 */
 	private int onFufill(int amount) {
 		int remaining = item.stackSize - completion;
 		if(amount <= remaining){
@@ -57,6 +94,8 @@ public class Claim{
 		}
 		completion += remaining;
 		amount -= remaining;
+		completed=true;
+		// TODO remove self from list of outstanding claims, because I have been completely fufilled.
 		return amount;
 	}
 	
@@ -66,7 +105,7 @@ public class Claim{
 	 * @param claim
 	 *            the claim to register
 	 */
-	public static void registerClaim(Claim claim) {
+	private static void registerClaim(Claim claim) {
 		if (claimList.get(claim.item.getItem()) == null)
 			claimList.put(claim.item.getItem(), new ArrayList<Claim>());
 		claimList.get(claim.item.getItem()).add(claim);
@@ -75,8 +114,7 @@ public class Claim{
 	/**
 	 * Get the claim with the highest priority in the queue for the given itemID. Multiple use claims will be returned first.
 	 *
-	 * @param itemID
-	 *            the itemID
+	 * @param itemID the itemID
 	 * @return the highest priority multi claim then the highest priority single claim.
 	 */
 	public static Claim getHighestPriorityClaim(Item item) {
