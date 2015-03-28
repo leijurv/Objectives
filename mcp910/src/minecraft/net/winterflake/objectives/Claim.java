@@ -10,9 +10,9 @@ import net.minecraft.item.ItemStack;
  * An AquireItemObjective can "claim" an item as soon as it comes into the
  * inventory. As well as claiming items, this also keeps track of completion.
  *
- * @author Leif Jurvetson
- * @author Mickey Daras
- * @author Avery Cowan
+ * @author leijurv
+ * @author howardstark
+ * @author ave4224
  */
 public class Claim{
 	
