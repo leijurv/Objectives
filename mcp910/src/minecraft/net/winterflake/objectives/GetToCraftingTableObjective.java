@@ -34,6 +34,8 @@ public class GetToCraftingTableObjective extends Objective implements Parent {
 					
 					try {
 						Thread.sleep(500);
+						if (Objectives.mc.theWorld == null || Objectives.mc.thePlayer == null)
+							continue;
 						BlockPos t = findCraftingTable((int) Objectives.mc.thePlayer.posX, (int) Objectives.mc.thePlayer.posY, (int) Objectives.mc.thePlayer.posZ, Objectives.mc);
 						if (t != null) {
 							craftingTable = t;

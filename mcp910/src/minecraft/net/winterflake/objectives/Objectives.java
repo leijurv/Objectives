@@ -102,6 +102,7 @@ public class Objectives {
 	 */
 	public Objectives(Minecraft mcIn) {
 		mc = mcIn;
+		EventManager.addListener(new ClaimListener());
 		/*
 		 * new Thread(){ public void run(){ while(true){ try{
 		 * Thread.sleep(5000); System.out.println("Dropping");
@@ -135,8 +136,6 @@ public class Objectives {
 		
 		craftingTable = null;
 		ArrayList<Objective> dank = new ArrayList<Objective>();
-		
-		EventManager.addListener(new ClaimListener());
 		
 		dank.add(AquireItemObjective.getAquireItemObjective(new ItemStack(Items.stone_pickaxe, 1), Need.SINGLE));
 		// dank.add(new GetToCraftingTableObjective());

@@ -25,9 +25,10 @@ public class PunchTreeObjective extends Objective {
 					
 					try {
 						Thread.sleep(500);
-						if (closestTree != null) {
+						if (Objectives.mc.theWorld == null || Objectives.mc.thePlayer == null)
 							continue;
-						}
+						if (closestTree != null)
+							continue;
 						BlockPos t = findCraftingTable((int) Objectives.mc.thePlayer.posX, (int) Objectives.mc.thePlayer.posY, (int) Objectives.mc.thePlayer.posZ, Objectives.mc);
 						if (t != null) {
 							closestTree = t;
