@@ -51,6 +51,8 @@ import net.minecraft.util.MovementInput;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.IInteractionObject;
 import net.minecraft.world.World;
+import net.winterflake.event.EventManager;
+import net.winterflake.event.PlayerDamagedEvent;
 
 public class EntityPlayerSP extends AbstractClientPlayer {
 	
@@ -105,6 +107,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
 	 * Called when the entity is attacked.
 	 */
 	public boolean attackEntityFrom(DamageSource source, float amount) {
+		EventManager.handleEvent(new PlayerDamagedEvent(source, amount));
 		return false;
 	}
 	

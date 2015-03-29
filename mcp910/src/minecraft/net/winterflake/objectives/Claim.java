@@ -5,9 +5,9 @@ import java.util.HashMap;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.winterflake.event.EventListener;
 import net.winterflake.event.EventManager;
 import net.winterflake.event.PlayerItemPickupEvent;
-import net.winterflake.event.PlayerItemPickupEventListener;
 
 /**
  * An AquireItemObjective can "claim" an item as soon as it comes into the
@@ -176,13 +176,14 @@ public class Claim {
 		return item + "$" + aio.getAdjustedPriority();
 	}
 }
-class ClaimListener implements PlayerItemPickupEventListener{
-	ClaimListener(){
-		super();
-	}
-	
+class ClaimListener extends EventListener{
 	@Override
-	public void eventPerformed(PlayerItemPickupEvent event) {
-		Claim.onItemStack(event.getItem().getEntityItem());
+	public void onEvent() {
+		Claim.onItemStack(((PlayerItemPickupEvent)event).getItem().getEntityItem());
+	}
+
+	@Override
+	public Class getEventType() {
+		return PlayerItemPickupEvent.class;
 	}
 }

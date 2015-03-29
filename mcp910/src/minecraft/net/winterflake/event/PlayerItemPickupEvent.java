@@ -1,5 +1,9 @@
 package net.winterflake.event;
-
+/**
+ * 
+ * @author avecowa
+ *
+ */
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 
