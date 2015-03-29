@@ -24,6 +24,7 @@ public class Claim {
 	final AquireItemObjective aio;
 	private volatile boolean completed;// Helper variable, not completely needed
 	private volatile int completion;
+	private volatile boolean stillNeeded;
 	
 	/**
 	 * This is a <code>HashMap</code> of every outstanding claim of items.
@@ -83,6 +84,9 @@ public class Claim {
 	 * @return whether it's finished
 	 */
 	public boolean isFinished() {
+		if (!stillNeeded) {
+			return true;
+		}
 		if (completion == item.stackSize) {
 			completed = true;
 			return true;
@@ -102,6 +106,9 @@ public class Claim {
 	 *         return means that some were leftover
 	 */
 	private int onFufill(int amount) {
+		if (!stillNeeded) {
+			return amount;
+		}
 		int remaining = item.stackSize - completion;
 		if (amount <= remaining) {
 			completion += amount;
@@ -141,7 +148,7 @@ public class Claim {
 		System.out.println(possibilities);
 		Claim max = possibilities.get(0);
 		for (int i = 1; i < possibilities.size(); i++) {
-			if ((max.need == Need.SINGLE || possibilities.get(i).need == Need.MULTI) && possibilities.get(i).aio.getPriority() > max.aio.getPriority())
+			if ((max.need == Need.SINGLE || possibilities.get(i).need == Need.MULTI) && possibilities.get(i).aio.getPriority() > max.aio.getPriority() && possibilities.get(i).stillNeeded)
 				max = possibilities.get(i);
 		}
 		return max;
@@ -160,7 +167,7 @@ public class Claim {
 	public static int onItemStack(ItemStack item) {
 		System.out.println("On pickup " + item);
 		Claim claim = getHighestPriorityClaim(item.getItem());
-		if (claim == null || item.stackSize == 0)
+		if (claim == null || item.stackSize == 0 || !claim.stillNeeded)
 			return 0;
 		
 		int remaining = claim.onFufill(item.stackSize);
@@ -176,6 +183,16 @@ public class Claim {
 	
 	public String toString() {
 		return item + "$" + aio.getAdjustedPriority();
+	}
+	
+	public void onUsedUp() {
+		stillNeeded = aio.stillNeeded();
+		if (!stillNeeded) {
+			ArrayList<Claim> m = claimList.get(item.getItem());
+			while (m.contains(this)) {
+				m.remove(this);
+			}
+		}
 	}
 }
 

@@ -25,6 +25,7 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
 	final Need need;
 	final ItemStack item;
 	final Claim claim;
+	private volatile boolean stillNeeded = true;
 	
 	private AquireItemObjective(ItemStack itemstack, Need needtype) {
 		super(howToGet(itemstack));// init
@@ -102,7 +103,7 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
 	
 	@Override
 	public boolean isFinished() {
-		return (finished = claim.isFinished());
+		return !stillNeeded || (finished = claim.isFinished());
 	}
 	
 	public static boolean checkFinished(Minecraft mc, ItemStack item) {
@@ -120,6 +121,15 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
 		return false;
 	}
 	
+	public void onUsedUp() {
+		stillNeeded = false;
+		claim.onUsedUp();
+		finished = true;
+	}
+	
+	public boolean stillNeeded() {
+		return stillNeeded;
+	}
 }
 
 /**
