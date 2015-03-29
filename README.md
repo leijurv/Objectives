@@ -6,6 +6,9 @@ Objective is a MCP based addon for Minecraft that automated many of the in-game 
 ...
 ##To-Do
 - [ ] Put a better discription above
+- [ ] Documentation
+ - [ ] `net.winterflake.event.*`
+ - [ ] `Claim.java`
 - [ ] Finish `AquireItemObjective.howToGet()`
 - [ ] In client objective creation
 - [ ] Events
