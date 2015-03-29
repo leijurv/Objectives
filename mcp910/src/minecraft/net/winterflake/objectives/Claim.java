@@ -158,6 +158,7 @@ public class Claim {
 	 * @return How many items were claimed
 	 */
 	public static int onItemStack(ItemStack item) {
+		System.out.println("On pickup " + item);
 		Claim claim = getHighestPriorityClaim(item.getItem());
 		if (claim == null || item.stackSize == 0)
 			return 0;
@@ -176,12 +177,14 @@ public class Claim {
 		return item + "$" + aio.getAdjustedPriority();
 	}
 }
-class ClaimListener extends EventListener{
+
+class ClaimListener extends EventListener {
+	
 	@Override
 	public void onEvent() {
-		Claim.onItemStack(((PlayerItemPickupEvent)event).getItem().getEntityItem());
+		Claim.onItemStack(((PlayerItemPickupEvent) event).getItem().getEntityItem());
 	}
-
+	
 	@Override
 	public Class getEventType() {
 		return PlayerItemPickupEvent.class;

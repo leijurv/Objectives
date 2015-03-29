@@ -34,6 +34,7 @@ public class Objectives {
 	public static TopLevelObjective main = null;
 	public static boolean alr = false;
 	public static boolean wasScreen = false;
+	public static long lastReset = 0;
 	
 	public static void onTick() {
 		if (main == null)
@@ -65,7 +66,11 @@ public class Objectives {
 		// isLeftClick=false;
 		
 		if (!main.onTick(mc)) {
-			reset();
+			if (lastReset + 1000 < System.currentTimeMillis()) {
+				reset();
+				lastReset = System.currentTimeMillis();
+				System.out.println("RESETTING");
+			}
 		}
 		// System.out.println(isLeftClick + "," + pressTime);
 		

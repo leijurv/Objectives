@@ -96,10 +96,13 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
 	}
 	
 	public boolean onTick(Minecraft mc) {
-		if (checkFinished(mc, item)) {
-			finished = true;
-		}
+		isFinished();
 		return super.onTick(mc);
+	}
+	
+	@Override
+	public boolean isFinished() {
+		return (finished = claim.isFinished());
 	}
 	
 	public static boolean checkFinished(Minecraft mc, ItemStack item) {

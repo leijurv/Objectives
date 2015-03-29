@@ -74,7 +74,7 @@ public abstract class MultiObjective extends Objective implements Parent {
 		}
 		if (!childObjectives.get(position).onTick(mc)) {
 			position++;
-			System.out.println("Moved onto position " + position);
+			System.out.println("Moved onto position " + position + ", which is " + (position >= childObjectives.size() ? "the end" : childObjectives.get(position).toString()));
 		}
 	}
 }
