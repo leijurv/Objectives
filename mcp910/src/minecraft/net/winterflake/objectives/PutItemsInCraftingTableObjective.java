@@ -10,9 +10,11 @@ import net.minecraft.item.crafting.ShapedRecipes;
 public class PutItemsInCraftingTableObjective extends Objective {
 	
 	final ShapedRecipes recipe;
+	final int num;
 	
-	public PutItemsInCraftingTableObjective(ShapedRecipes r) {
+	public PutItemsInCraftingTableObjective(ShapedRecipes r, int num) {
 		recipe = r;
+		this.num = num;
 	}
 	
 	/**
@@ -61,12 +63,15 @@ public class PutItemsInCraftingTableObjective extends Objective {
 																	// not
 																	// change
 																	// it.
-							s.handleMouseClick(null, map(i, recipe.recipeWidth, recipe.recipeHeight), 1, 0);// Put
-																											// in
-																											// table
-																											// with
-																											// right
-																											// click
+							for (int k = 0; k < num; k++) {// Put num items into
+															// each slot
+								s.handleMouseClick(null, map(i, recipe.recipeWidth, recipe.recipeHeight), 1, 0);// Put
+																												// in
+																												// table
+																												// with
+																												// right
+																												// click
+							}
 							s.handleMouseClick(null, j + 37, 0, 0);// Put
 																	// leftovers
 																	// back
