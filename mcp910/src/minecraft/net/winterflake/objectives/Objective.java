@@ -85,7 +85,7 @@ public abstract class Objective implements Comparable {
 		if (!isFinished()) {
 			doTick(mc);
 		}
-		return !isFinished();
+		return !finished;
 	}
 	
 	protected abstract void doTick(Minecraft mc);

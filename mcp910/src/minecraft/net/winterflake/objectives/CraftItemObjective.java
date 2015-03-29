@@ -65,7 +65,10 @@ public class CraftItemObjective extends SimpleEqualMultiObjective {
 			}
 			
 		}
-		if (requiresCraftingTable(recipe)) {
+		if (requiresCraftingTable(recipe) || true) {// Do not remove for now,
+													// until we have crafting in
+													// the 2x2 inventory
+													// crafting grid working
 			System.out.println("Requires c");
 			input.add(new GetToCraftingTableObjective());
 		}

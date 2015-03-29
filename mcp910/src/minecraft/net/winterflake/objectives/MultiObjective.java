@@ -68,7 +68,7 @@ public abstract class MultiObjective extends Objective implements Parent {
 	 */
 	public void doTick(Minecraft mc) {
 		if (position >= childObjectives.size()) {
-			System.out.println("Finished totally");
+			System.out.println("Finished totally" + childObjectives + " " + position + " " + finished);
 			finished = true;
 			return;
 		}

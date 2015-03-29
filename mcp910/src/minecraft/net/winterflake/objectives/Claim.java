@@ -166,6 +166,7 @@ public class Claim {
 		int remaining = claim.onFufill(item.stackSize);
 		int amountClaimed = item.stackSize - remaining;
 		if (remaining == 0) {// The claim was fufilled
+			System.out.println("Claim " + claim + " for " + item.getItem() + " was completely fulfilled");
 			claimList.get(item.getItem()).remove(claim);
 			return amountClaimed;
 		}
