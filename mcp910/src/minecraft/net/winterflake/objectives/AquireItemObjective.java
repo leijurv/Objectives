@@ -293,6 +293,7 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective implements
 					System.out.println("Clearing " + claims.get(i));
 					claims.get(i).completion = 0;
 					claims.get(i).completed = false;
+					claims.get(i).finished = false;
 				}
 			}
 		}
