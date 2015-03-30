@@ -77,9 +77,12 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
 	public static ArrayList<Objective> howToGet(ItemStack item) {
 		ArrayList<Objective> possibilities = new ArrayList<Objective>();
 		int available;
-		if ((available = available(item.getItem())) >= item.stackSize)
-			return possibilities;
-		item = new ItemStack(item.getItem(), item.stackSize - available);
+		/*
+		 * if ((available = available(item.getItem())) >= item.stackSize) return
+		 * possibilities;
+		 * 
+		 * item = new ItemStack(item.getItem(), item.stackSize - available);
+		 */
 		List<IRecipe> l = CraftingManager.getInstance().getRecipeList();
 		for (IRecipe r : l) {
 			if (r != null && r.getRecipeOutput() != null) {
@@ -291,6 +294,10 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
 			if (a.stillNeeded)
 				count -= a.item.stackSize;
 		return count;
+	}
+	
+	public String toString() {
+		return "AquireITem " + item + " " + completion;
 	}
 }
 

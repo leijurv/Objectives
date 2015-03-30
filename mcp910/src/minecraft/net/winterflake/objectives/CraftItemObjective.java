@@ -30,7 +30,7 @@ public class CraftItemObjective extends Objective implements Parent {
 		if (recipe instanceof ShapedRecipes) {
 			inputs = new ArrayList<AquireItemObjective>();
 			ShapedRecipes n = (ShapedRecipes) recipe;
-			ArrayList<Item> items = new ArrayList<Item>();
+			ArrayList<ItemStack> items = new ArrayList<ItemStack>();
 			ArrayList<Integer> amounts = new ArrayList<Integer>();
 			
 			for (ItemStack r : n.recipeItems) {
@@ -40,20 +40,21 @@ public class CraftItemObjective extends Objective implements Parent {
 					int amount = r.stackSize;
 					boolean d = false;
 					for (int j = 0; j < items.size(); j++) {
-						if (Item.getIdFromItem(items.get(j)) == itemID) {
+						if (items.get(j).isItemEqual(r)) {
+							
 							amounts.set(j, amounts.get(j) + amount * multiplier);
 							d = true;
 							break;
 						}
 					}
 					if (!d) {
-						items.add(i);
+						items.add(r);
 						amounts.add(amount * multiplier);
 					}
 				}
 			}
 			for (int j = 0; j < items.size(); j++) {
-				inputs.add(AquireItemObjective.getAquireItemObjective(new ItemStack(items.get(j), amounts.get(j)), Need.SINGLE));
+				inputs.add(AquireItemObjective.getAquireItemObjective(new ItemStack(items.get(j).getItem(), amounts.get(j), items.get(j).getMetadata()), Need.SINGLE));
 			}
 			
 		} else {
