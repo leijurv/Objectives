@@ -11,6 +11,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
+import net.winterflake.event.EventListener;
+import net.winterflake.event.PlayerItemPickupEvent;
 
 /**
  * This class represents objectives that consist of obtaining items. This
@@ -24,14 +26,21 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
 	
 	final Need need;
 	final ItemStack item;
-	final Claim claim;
+//	final Claim claim;
+	private volatile boolean completed;// Helper variable, not completely needed
+	private volatile int completion;
 	private volatile boolean stillNeeded = true;
+	
+	/**
+	 * This is a <code>HashMap</code> of every outstanding instance of this class.
+	 */
+	private static HashMap<Item, ArrayList<AquireItemObjective>> claimList = new HashMap<>();
 	
 	private AquireItemObjective(ItemStack itemstack, Need needtype) {
 		super(howToGet(itemstack));// init
 		this.item = itemstack;
 		this.need = needtype;
-		claim = new Claim(this);
+//		claim = new Claim(this);
 	}
 	
 	/**
@@ -93,7 +102,7 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
 	 * @return the completion, on a range of from 0 to 1
 	 */
 	public double getCompletionPercentage() {
-		return ((double) claim.getAmountCompleted()) / ((double) item.stackSize);
+		return ((double) completion) / ((double) item.stackSize);
 	}
 	
 	public boolean onTick(Minecraft mc) {
@@ -101,9 +110,25 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
 		return super.onTick(mc);
 	}
 	
+	/**
+	 * Is this claim completely fufilled?
+	 * 
+	 * @return whether it's finished
+	 */
+//	public boolean isFinished() {
+//		if (!stillNeeded) {
+//			return true;
+//		}
+//		if (completion == item.stackSize) {
+//			completed = true;
+//			return true;
+//		}
+//		completed = false;
+//		return false;
+//	}
 	@Override
 	public boolean isFinished() {
-		return !stillNeeded || (finished = claim.isFinished());
+		return !stillNeeded || completed || completion == item.stackSize;//(finished = claim.isFinished());
 	}
 	
 	public static boolean checkFinished(Minecraft mc, ItemStack item) {
@@ -123,12 +148,102 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
 	
 	public void onUsedUp() {
 		stillNeeded = false;
-		claim.onUsedUp();
+//		claim.onUsedUp();
 		finished = true;
+		ArrayList<AquireItemObjective> m = claimList.get(item.getItem());
+		while (m.contains(this)) {
+			m.remove(this);
+		}
 	}
 	
 	public boolean stillNeeded() {
 		return stillNeeded;
+	}
+	
+	/**
+	 * Called when this claim is fully or partially filled by items entering the
+	 * inventory
+	 * 
+	 * @param amount
+	 *            The amount of items fufilled
+	 * @return The amount leftover after this claim takes what it can. A return
+	 *         of 0 means that this claim took all the fufilled items, a nonzero
+	 *         return means that some were leftover
+	 */
+	private int onFufill(int amount) {
+		if (!stillNeeded) {
+			return amount;
+		}
+		int remaining = item.stackSize - completion;
+		if (amount <= remaining) {
+			completion += amount;
+			return 0;
+		}
+		completion += remaining;
+		amount -= remaining;
+		completed = true;
+		return amount;
+	}
+	
+	/**
+	 * Register a claim into the queue for its itemID
+	 *
+	 * @param claim
+	 *            the claim to register
+	 */
+	private static void registerClaim(AquireItemObjective claim) {
+		if (claimList.get(claim.item.getItem()) == null)
+			claimList.put(claim.item.getItem(), new ArrayList<AquireItemObjective>());
+		claimList.get(claim.item.getItem()).add(claim);
+	}
+	
+	/**
+	 * Get the claim with the highest priority in the queue for the given
+	 * itemID. Multiple use claims will be returned first.
+	 *
+	 * @param item
+	 *            the item
+	 * @return the highest priority multi claim then the highest priority single
+	 *         claim.
+	 */
+	public static AquireItemObjective getHighestPriorityClaim(Item item) {
+		ArrayList<AquireItemObjective> possibilities = claimList.get(item);
+		if (possibilities == null || possibilities.isEmpty())
+			return null;
+		System.out.println(possibilities);
+		AquireItemObjective max = possibilities.get(0);
+		for (int i = 1; i < possibilities.size(); i++) {
+			if ((max.need == Need.SINGLE || possibilities.get(i).need == Need.MULTI) && (possibilities.get(i).getPriority() > max.getPriority() || possibilities.get(i).need != max.need) && possibilities.get(i).stillNeeded)
+				max = possibilities.get(i);
+		}
+		return max;
+	}
+	
+	/**
+	 * When a new item stack enters the inventory this is called to see if there
+	 * are any claims for it.
+	 *
+	 * @param itemID
+	 *            The itemID
+	 * @param amount
+	 *            The amount
+	 * @return How many items were claimed
+	 */
+	public static int onItemStack(ItemStack item) {
+		System.out.println("On pickup " + item);
+		AquireItemObjective claim = getHighestPriorityClaim(item.getItem());
+		if (claim == null || item.stackSize == 0 || !claim.stillNeeded)
+			return 0;
+		
+		int remaining = claim.onFufill(item.stackSize);
+		int amountClaimed = item.stackSize - remaining;
+		if (remaining == 0) {// The claim was fufilled
+			System.out.println("Claim " + claim + " for " + item.getItem() + " was completely fulfilled");
+			claimList.get(item.getItem()).remove(claim);
+			return amountClaimed;
+		}
+		ItemStack stack = new ItemStack(item.getItem(), remaining, item.getMetadata());
+		return onItemStack(stack) + amountClaimed;
 	}
 }
 
@@ -141,4 +256,17 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
 enum Need {
 	MULTI, // Can be used multiple times, like a furnace or crafting table
 	SINGLE // Will be used up, like an iron ingot
+}
+
+class ClaimListener extends EventListener {
+	
+	@Override
+	public void onEvent() {
+		AquireItemObjective.onItemStack(((PlayerItemPickupEvent) event).getItem().getEntityItem());
+	}
+	
+	@Override
+	public Class getEventType() {
+		return PlayerItemPickupEvent.class;
+	}
 }

@@ -18,8 +18,12 @@ public abstract class EventManager {
 	}
 	
 	public static void handleEvent(Event event){
+		if(event == null)
+			return;
 		System.out.println(event+"\n"+listeners);
 		ArrayList<EventListener> ls = listeners.get(event.getClass());
+		if(ls == null)
+			return;
 		for(EventListener l : ls)
 			l.eventTriggered(event);
 	}
