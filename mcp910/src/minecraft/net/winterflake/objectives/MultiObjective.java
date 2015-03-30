@@ -8,10 +8,11 @@ import net.minecraft.client.Minecraft;
  *
  * @author leijurv
  */
-public abstract class MultiObjective extends Objective implements Parent {
+public abstract class MultiObjective extends Objective implements Parent,
+		UsedUp {
 	
 	protected final ArrayList<Objective> childObjectives;
-	private int position = 0;
+	protected int position = 0;
 	
 	public MultiObjective(ArrayList<Objective> childObjectives) {
 		this.childObjectives = childObjectives;
@@ -71,12 +72,24 @@ public abstract class MultiObjective extends Objective implements Parent {
 			// System.out.println(this + " has no child objectives.");
 			return;
 		}
-		for (Objective o : childObjectives) {
-			boolean finished = !o.onTick(mc);
-			if (!finished) {
-				return;
+		if (position >= childObjectives.size()) {
+			System.out.println("Finished totally" + childObjectives + " " + position + " " + finished + " " + this);
+			finished = true;
+			return;
+		}
+		System.out.println(this + " is on position " + position + " which is " + childObjectives.get(position));
+		if (!childObjectives.get(position).onTick(mc)) {
+			position++;
+			System.out.println("Moved onto position " + position + ", which is " + (position >= childObjectives.size() ? "the end" : childObjectives.get(position).toString()));
+		}
+	}
+	
+	@Override
+	public void onUsedUp() {
+		for (Objective c : childObjectives) {
+			if (c instanceof UsedUp) {
+				((UsedUp) c).onUsedUp();
 			}
 		}
-		finished = true;
 	}
 }

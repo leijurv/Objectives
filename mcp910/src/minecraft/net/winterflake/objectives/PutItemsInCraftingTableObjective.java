@@ -1,5 +1,7 @@
 package net.winterflake.objectives;
 
+import java.util.ArrayList;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiCrafting;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -11,6 +13,8 @@ public class PutItemsInCraftingTableObjective extends Objective {
 	
 	final ShapedRecipes recipe;
 	final int num;
+	ArrayList<int[]> clicks = new ArrayList<int[]>();
+	int clickPosition = 0;
 	
 	public PutItemsInCraftingTableObjective(ShapedRecipes r, int num) {
 		recipe = r;
@@ -38,62 +42,57 @@ public class PutItemsInCraftingTableObjective extends Objective {
 	
 	@Override
 	protected void doTick(Minecraft mc) {
-		if (mc.currentScreen instanceof GuiCrafting) {
-			GuiCrafting s = (GuiCrafting) (mc.currentScreen);
-			finished = true;
-			for (int i = 0; i < recipe.recipeItems.length; i++) {
-				ItemStack it = recipe.recipeItems[i];
-				if (it != null) {
-					Item neededItem = it.getItem();
-					InventoryPlayer a = mc.thePlayer.inventory;
-					ItemStack[] stacks = a.mainInventory;
-					boolean d = false;
-					for (int j = 0; j < stacks.length; j++) {
-						if (stacks[j] != null && stacks[j].getItem().equals(neededItem)) {
-							
-							s.handleMouseClick(null, j + 37, 0, 0);// Grab the
-																	// item Do
-																	// not
-																	// question
-																	// the j+37.
-																	// And if
-																	// you value
-																	// your
-																	// life, do
-																	// not
-																	// change
-																	// it.
-							for (int k = 0; k < num; k++) {// Put num items into
-															// each slot
-								s.handleMouseClick(null, map(i, recipe.recipeWidth, recipe.recipeHeight), 1, 0);// Put
-																												// in
-																												// table
-																												// with
-																												// right
-																												// click
-							}
-							s.handleMouseClick(null, j + 37, 0, 0);// Put
-																	// leftovers
-																	// back
-																	// where
-																	// they were
-							System.out.println(stacks[j] + " from " + j + " to " + i);
-							d = true;
-							break;
-						}
-					}
-					if (!d) {
-						System.out.println("Didn't move blah" + i);
-						finished = false;
-					}
-				}
+		if (clicks.isEmpty()) {
+			calculateCliks(mc);
+		}
+		if (clickPosition % 10 == 0) {
+			int click = clickPosition / 10;
+			if (click >= clicks.size()) {
+				finished = true;
+				return;
 			}
-			if (finished) {
-				s.handleMouseClick(null, 0, 0, 1);
-				System.out.println("STUFFFF");
+			if (runClick(mc, clicks.get(click))) {
+				clickPosition++;
 			}
-			
+		} else {
+			clickPosition++;
 		}
 	}
 	
+	public boolean runClick(Minecraft mc, int[] click) {
+		if (mc.currentScreen instanceof GuiCrafting) {
+			GuiCrafting s = (GuiCrafting) (mc.currentScreen);
+			s.handleMouseClick(null, click[0], click[1], click[2]);
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public void calculateCliks(Minecraft mc) {
+		System.out.println("CALCULATING");
+		for (int i = 0; i < recipe.recipeItems.length; i++) {
+			ItemStack it = recipe.recipeItems[i];
+			if (it != null) {
+				Item neededItem = it.getItem();
+				InventoryPlayer a = mc.thePlayer.inventory;
+				ItemStack[] stacks = a.mainInventory;
+				boolean d = false;
+				for (int j = 0; j < stacks.length; j++) {
+					if (stacks[j] != null && stacks[j].getItem().equals(neededItem)) {
+						
+						clicks.add(new int[] { j + 37, 0, 0 });
+						for (int k = 0; k < num; k++) {
+							clicks.add(new int[] { map(i, recipe.recipeWidth, recipe.recipeHeight), 1, 0 });
+						}
+						clicks.add(new int[] { j + 37, 0, 0 });
+						System.out.println(stacks[j] + " from " + j + " to " + i);
+						d = true;
+						break;
+					}
+				}
+			}
+		}
+		clicks.add(new int[] { 0, 0, 1 });
+	}
 }

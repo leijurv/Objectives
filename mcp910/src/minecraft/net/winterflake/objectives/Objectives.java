@@ -53,7 +53,7 @@ public class Objectives {
 			}
 		}
 		tickIndex++;
-		if (tickIndex % 10 == 0) {
+		if (tickIndex % 10 == 0 && mc.currentScreen == null) {
 			System.out.println("UPDATING CLAIMS");
 			AquireItemObjective.updateClaims();
 		}
@@ -62,11 +62,15 @@ public class Objectives {
 			pressTime++;
 		
 		if (!main.onTick(mc)) {
-			/*
-			 * if (lastReset + 1000 < System.currentTimeMillis()) { reset();
-			 * lastReset = System.currentTimeMillis();
-			 * System.out.println("RESETTING"); }
-			 */
+			
+			if (lastReset + 1000 < System.currentTimeMillis()) {
+				main.onUsedUp();
+				reset();
+				AquireItemObjective.updateClaims();
+				lastReset = System.currentTimeMillis();
+				System.out.println("RESETTING");
+			}
+			
 		}
 		// System.out.println(isLeftClick + "," + pressTime);
 		
@@ -138,7 +142,7 @@ public class Objectives {
 		craftingTable = null;
 		ArrayList<Objective> dank = new ArrayList<Objective>();
 		
-		dank.add(AquireItemObjective.getAquireItemObjective(new ItemStack(Items.stone_pickaxe, 1), Need.SINGLE));
+		dank.add(AquireItemObjective.getAquireItemObjective(new ItemStack(Items.wooden_pickaxe, 1), Need.SINGLE));
 		// dank.add(new GetToCraftingTableObjective());
 		dank.add(new DoMineBlockObjective(1, 2, 3, null));
 		// dank.add(AquireItemObjective.getAquireItemObjective(new

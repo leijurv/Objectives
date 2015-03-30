@@ -18,7 +18,7 @@ public class GetToCraftingTableObjective extends Objective implements Parent {
 	
 	static boolean hasCraftingTable = true;
 	private AquireItemObjective craftingtable;
-	private BlockPos craftingTable;
+	private BlockPos craftingTableLocation;
 	private MovementObjective ct;
 	private boolean rightClicked = false;
 	
@@ -38,9 +38,9 @@ public class GetToCraftingTableObjective extends Objective implements Parent {
 							continue;
 						BlockPos t = findCraftingTable((int) Objectives.mc.thePlayer.posX, (int) Objectives.mc.thePlayer.posY, (int) Objectives.mc.thePlayer.posZ, Objectives.mc);
 						if (t != null) {
-							craftingTable = t;
-							Objectives.craftingTable = craftingTable;
-							ct = new MovementObjective(10000, craftingTable.getX(), craftingTable.getY(), craftingTable.getZ());
+							craftingTableLocation = t;
+							Objectives.craftingTable = craftingTableLocation;
+							ct = new MovementObjective(10000, craftingTableLocation.getX(), craftingTableLocation.getY(), craftingTableLocation.getZ());
 							ct.registerParent(reference);
 							System.out.println("Finished searching");
 							break;
@@ -96,21 +96,28 @@ public class GetToCraftingTableObjective extends Objective implements Parent {
 		if (finished) {
 			System.out.println("WHAT");
 		}
+		if (craftingTableLocation != null) {
+			IBlockState dank = mc.theWorld.getBlockState(craftingTableLocation);
+			if (!dank.getBlock().equals(Blocks.crafting_table)) {
+				craftingTableLocation = null;
+				ct = null;
+			}
+		}
 		if (rightClicked) {
 			if (mc.currentScreen instanceof GuiCrafting) {
 				
-				System.out.println("Finished with crafting");
+				System.out.println("Finished with opening crafting");
 				finished = true;
 				rightClicked = false;
 			} else {
-				System.out.println(mc.currentScreen);
+				System.out.println("current screen" + mc.currentScreen);
 			}
 			
 			return;
 		}
 		if (ct != null) {
 			if (!ct.onTick(mc)) {
-				System.out.println("Get wit fi");
+				System.out.println("Right clicking crafting table");
 				new RightClickObjective().onTick(mc);
 				rightClicked = true;
 				

@@ -8,7 +8,7 @@ import net.minecraft.client.Minecraft;
  *
  * @author leijurv
  */
-public class TopLevelObjective implements Parent {
+public class TopLevelObjective implements Parent, UsedUp {
 	
 	private final MultiObjective child;
 	private final double priority;
@@ -43,5 +43,10 @@ public class TopLevelObjective implements Parent {
 	
 	public boolean onTick(Minecraft mc) {
 		return child.onTick(mc);
+	}
+	
+	@Override
+	public void onUsedUp() {
+		child.onUsedUp();
 	}
 }

@@ -98,7 +98,9 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective implements
 		// TODO have some system for custom ones. IDK how that could work
 		System.out.println(Block.getIdFromBlock(Blocks.log) + " " + Item.getIdFromItem(item.getItem()) + " " + item + " " + item.getItem());
 		if (Block.getIdFromBlock(Blocks.log) == Item.getIdFromItem(item.getItem())) {
-			possibilities.add(new PunchTreeObjective());
+			for (int i = 0; i < item.stackSize; i++) {
+				possibilities.add(new PunchTreeObjective());
+			}
 		}
 		System.out.println(item + " has options " + possibilities);
 		return possibilities;
@@ -136,6 +138,9 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective implements
 	// }
 	@Override
 	public boolean isFinished() {
+		if (position >= childObjectives.size() && !finished) {
+			position = 0;
+		}
 		// System.out.println("Testing if aquireitemobjective for " + item +
 		// " is finished: sn:" + stillNeeded + " comp:" + completed + " comple:"
 		// + completion + " n:" + item.stackSize);
@@ -197,6 +202,9 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective implements
 		int remaining = item.stackSize - completion;
 		if (amount <= remaining) {
 			completion += amount;
+			if (amount == remaining) {
+				completed = true;
+			}
 			return 0;
 		}
 		completion += remaining;
@@ -235,7 +243,7 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective implements
 		AquireItemObjective max = possibilities.get(0);
 		for (int i = 1; i < possibilities.size(); i++) {
 			if (!possibilities.get(i).completed && possibilities.get(i).stillNeeded) {
-				if (possibilities.get(i).getPriority() > max.getPriority()) {
+				if (possibilities.get(i).getPriority() > max.getPriority() || max.completed) {
 					max = possibilities.get(i);
 				}
 			}
@@ -322,7 +330,7 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective implements
 	}
 	
 	public String toString() {
-		return "AquireITem " + item + " " + completion;
+		return "AquireITem " + item + " " + completion + " " + completed;
 	}
 }
 
