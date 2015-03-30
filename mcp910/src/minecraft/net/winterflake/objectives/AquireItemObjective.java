@@ -261,11 +261,12 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
 		for (Item item : items) {
 			ArrayList<AquireItemObjective> claims = claimList.get(item);
 			for (int i = 0; i < claims.size(); i++) {
-				if (!claims.get(i).stillNeeded)
+				if (!claims.get(i).stillNeeded) {
 					claims.remove(i--);
-				else
+				} else {
 					claims.get(i).completion = 0;
-				claims.get(i).completed = false;
+					claims.get(i).completed = false;
+				}
 			}
 		}
 		if (Minecraft.getMinecraft().thePlayer == null)
