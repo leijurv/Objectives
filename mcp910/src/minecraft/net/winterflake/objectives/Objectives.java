@@ -35,8 +35,10 @@ public class Objectives {
 	public static boolean alr = false;
 	public static boolean wasScreen = false;
 	public static long lastReset = 0;
+	public static long tickIndex = 0;
 	
 	public static void onTick() {
+		
 		if (mc.theWorld == null || mc.thePlayer == null)
 			return;
 		if (main == null)
@@ -50,20 +52,14 @@ public class Objectives {
 				
 			}
 		}
-		if (pressTime < 0) {
-			// System.out.println(pressTime);
+		tickIndex++;
+		if (tickIndex % 10 == 0) {
+			System.out.println("UPDATING CLAIMS");
+			AquireItemObjective.updateClaims();
 		}
+		
 		if (isLeftClick && mc.currentScreen == null)
 			pressTime++;
-		
-		// if(isLeftClick) mc.clickMouse();
-		// System.out.println(mc.currentScreen+","+(mc.currentScreen instanceof
-		// GuiCrafting));
-		
-		if (mc.currentScreen == null) {
-			alr = false;
-		}
-		// isLeftClick=false;
 		
 		if (!main.onTick(mc)) {
 			if (lastReset + 1000 < System.currentTimeMillis()) {

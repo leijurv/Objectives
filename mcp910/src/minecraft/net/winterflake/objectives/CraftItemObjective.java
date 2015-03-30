@@ -26,17 +26,18 @@ public class CraftItemObjective extends Objective implements Parent {
 		this.recipe = recipe;
 		this.item = item;
 		int stackSize = item.stackSize;
-		int multiplier = item.stackSize / recipe.getRecipeOutput().stackSize;
+		int multiplier = (int) Math.ceil(((double) item.stackSize) / ((double) recipe.getRecipeOutput().stackSize));
+		System.out.println(item.stackSize + "," + recipe.getRecipeOutput() + " " + recipe.getRecipeOutput().stackSize + " " + multiplier);
 		if (recipe instanceof ShapedRecipes) {
 			inputs = new ArrayList<AquireItemObjective>();
 			ShapedRecipes n = (ShapedRecipes) recipe;
 			ArrayList<ItemStack> items = new ArrayList<ItemStack>();
 			ArrayList<Integer> amounts = new ArrayList<Integer>();
-			
+			System.out.print("CONSTRUCTING: ");
 			for (ItemStack r : n.recipeItems) {
+				System.out.print(r + ",");
 				if (r != null) {
 					Item i = r.getItem();
-					int itemID = Item.getIdFromItem(i);
 					int amount = r.stackSize;
 					boolean d = false;
 					for (int j = 0; j < items.size(); j++) {
@@ -53,8 +54,15 @@ public class CraftItemObjective extends Objective implements Parent {
 					}
 				}
 			}
+			System.out.println();
 			for (int j = 0; j < items.size(); j++) {
-				inputs.add(AquireItemObjective.getAquireItemObjective(new ItemStack(items.get(j).getItem(), amounts.get(j), items.get(j).getMetadata()), Need.SINGLE));
+				ItemStack it = new ItemStack(items.get(j).getItem(), amounts.get(j), items.get(j).getMetadata());
+				System.out.print(it + ",");
+			}
+			System.out.println();
+			for (int j = 0; j < items.size(); j++) {
+				ItemStack it = new ItemStack(items.get(j).getItem(), amounts.get(j), items.get(j).getMetadata());
+				inputs.add(AquireItemObjective.getAquireItemObjective(it, Need.SINGLE));
 			}
 			
 		} else {

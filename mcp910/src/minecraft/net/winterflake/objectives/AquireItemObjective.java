@@ -42,6 +42,7 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
 		super(howToGet(itemstack));// init
 		this.item = itemstack;
 		this.need = needtype;
+		registerClaim(this);
 		// claim = new Claim(this);
 	}
 	
@@ -134,9 +135,11 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
 	// }
 	@Override
 	public boolean isFinished() {
-		return !stillNeeded || completed || completion == item.stackSize;// (finished
-																			// =
-																			// claim.isFinished());
+		System.out.println("Testing if aquireitemobjective for " + item + " is finished: sn:" + stillNeeded + " comp:" + completed + " comple:" + completion + " n:" + item.stackSize);
+		
+		return (finished = (!stillNeeded || completed || completion == item.stackSize));// (finished
+		// =
+		// claim.isFinished());
 	}
 	
 	public static boolean checkFinished(Minecraft mc, ItemStack item) {
@@ -220,10 +223,14 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
 		if (possibilities == null || possibilities.isEmpty())
 			return null;
 		System.out.println(possibilities);
+		
 		AquireItemObjective max = possibilities.get(0);
 		for (int i = 1; i < possibilities.size(); i++) {
-			if ((max.need == Need.SINGLE || possibilities.get(i).need == Need.MULTI) && (possibilities.get(i).getPriority() > max.getPriority() || possibilities.get(i).need != max.need) && possibilities.get(i).stillNeeded)
-				max = possibilities.get(i);
+			if (!possibilities.get(i).completed && possibilities.get(i).stillNeeded) {
+				if (possibilities.get(i).getPriority() > max.getPriority()) {
+					max = possibilities.get(i);
+				}
+			}
 		}
 		return max;
 	}
@@ -241,17 +248,23 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
 	public static int onItemStack(ItemStack item) {
 		if (item == null)
 			return 0;
-		System.out.println("On pickup " + item);
+		
 		AquireItemObjective claim = getHighestPriorityClaim(item.getItem());
+		System.out.print("On pickup " + item);
+		System.out.println(" giving to " + claim);
 		if (claim == null || item.stackSize == 0 || !claim.stillNeeded)
 			return 0;
 		
 		int remaining = claim.onFufill(item.stackSize);
 		int amountClaimed = item.stackSize - remaining;
+		System.out.println("Claim " + claim + " for " + item.getItem() + " was claimed " + amountClaimed);
 		if (remaining == 0) {// The claim was fufilled
 			System.out.println("Claim " + claim + " for " + item.getItem() + " was completely fulfilled");
-			claimList.get(item.getItem()).remove(claim);
+			// claimList.get(item.getItem()).remove(claim);
 			return amountClaimed;
+		}
+		if (amountClaimed == 0) {
+			throw new IllegalStateException("Nothing claimed!");
 		}
 		ItemStack stack = new ItemStack(item.getItem(), remaining, item.getMetadata());
 		return onItemStack(stack) + amountClaimed;
@@ -261,12 +274,14 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
 		if (Minecraft.getMinecraft() == null)
 			throw new NullPointerException("Minecraft.getMinecraft() is null");
 		Set<Item> items = claimList.keySet();
+		System.out.println("REDISTRIBUTING");
 		for (Item item : items) {
 			ArrayList<AquireItemObjective> claims = claimList.get(item);
 			for (int i = 0; i < claims.size(); i++) {
 				if (!claims.get(i).stillNeeded) {
 					claims.remove(i--);
 				} else {
+					System.out.println("Clearing " + claims.get(i));
 					claims.get(i).completion = 0;
 					claims.get(i).completed = false;
 				}
