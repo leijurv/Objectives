@@ -147,6 +147,7 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
 	}
 	
 	public void onUsedUp() {
+		System.out.println(item+" is used up.");
 		stillNeeded = false;
 //		claim.onUsedUp();
 		finished = true;
