@@ -23,7 +23,8 @@ import net.winterflake.event.PlayerItemPickupEvent;
  * @author howardstark
  * @author ave4224
  */
-public class AquireItemObjective extends HighPriorityMultiOrObjective {
+public class AquireItemObjective extends HighPriorityMultiOrObjective implements
+		UsedUp {
 	
 	final Need need;
 	final ItemStack item;
@@ -135,7 +136,9 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
 	// }
 	@Override
 	public boolean isFinished() {
-		System.out.println("Testing if aquireitemobjective for " + item + " is finished: sn:" + stillNeeded + " comp:" + completed + " comple:" + completion + " n:" + item.stackSize);
+		// System.out.println("Testing if aquireitemobjective for " + item +
+		// " is finished: sn:" + stillNeeded + " comp:" + completed + " comple:"
+		// + completion + " n:" + item.stackSize);
 		
 		return (finished = (!stillNeeded || completed || completion == item.stackSize));// (finished
 		// =
@@ -165,6 +168,11 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
 		ArrayList<AquireItemObjective> m = claimList.get(item.getItem());
 		while (m.contains(this)) {
 			m.remove(this);
+		}
+		for (Objective o : childObjectives) {
+			if (o instanceof UsedUp) {
+				((UsedUp) o).onUsedUp();
+			}
 		}
 	}
 	
@@ -263,8 +271,8 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
 			// claimList.get(item.getItem()).remove(claim);
 			return amountClaimed;
 		}
-		if (amountClaimed == 0) {
-			throw new IllegalStateException("Nothing claimed!");
+		if (amountClaimed == 0) {// All done, nothing was claimed
+			return 0;
 		}
 		ItemStack stack = new ItemStack(item.getItem(), remaining, item.getMetadata());
 		return onItemStack(stack) + amountClaimed;
@@ -279,6 +287,7 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
 			ArrayList<AquireItemObjective> claims = claimList.get(item);
 			for (int i = 0; i < claims.size(); i++) {
 				if (!claims.get(i).stillNeeded) {
+					System.out.println("REMOVING " + claims.get(i));
 					claims.remove(i--);
 				} else {
 					System.out.println("Clearing " + claims.get(i));

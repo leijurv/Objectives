@@ -68,7 +68,7 @@ public abstract class MultiObjective extends Objective implements Parent {
 	 */
 	public void doTick(Minecraft mc) {
 		if (childObjectives.isEmpty()) {
-			System.out.println(this + " has no child objectives.");
+			// System.out.println(this + " has no child objectives.");
 			return;
 		}
 		if (position >= childObjectives.size()) {

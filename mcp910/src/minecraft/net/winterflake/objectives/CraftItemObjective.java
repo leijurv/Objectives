@@ -12,7 +12,7 @@ import net.minecraft.item.crafting.ShapedRecipes;
  *
  * @author leijurv
  */
-public class CraftItemObjective extends Objective implements Parent {
+public class CraftItemObjective extends Objective implements Parent, UsedUp {
 	
 	final ItemStack item;
 	final IRecipe recipe;
@@ -21,6 +21,7 @@ public class CraftItemObjective extends Objective implements Parent {
 	final GetToCraftingTableObjective gtc;
 	private volatile boolean hasAllInputs = false;
 	private volatile boolean isInCraftingTable = false;
+	private volatile boolean stillNeeded = true;
 	
 	public CraftItemObjective(ItemStack item, IRecipe recipe) {
 		this.recipe = recipe;
@@ -148,6 +149,17 @@ public class CraftItemObjective extends Objective implements Parent {
 			o.onUsedUp();// Once we start putting items in the crafting table we
 							// don't want the input objectives to start freaking
 							// out
+		}
+	}
+	
+	public void onUsedUp() {
+		System.out.println("Crafting for" + item + " is used up.");
+		stillNeeded = false;
+		finished = true;
+		for (Objective o : inputs) {
+			if (o instanceof UsedUp) {
+				((UsedUp) o).onUsedUp();
+			}
 		}
 	}
 	
