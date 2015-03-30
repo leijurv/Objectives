@@ -71,14 +71,12 @@ public abstract class MultiObjective extends Objective implements Parent {
 			// System.out.println(this + " has no child objectives.");
 			return;
 		}
-		if (position >= childObjectives.size()) {
-			System.out.println("Finished totally" + childObjectives + " " + position + " " + finished + " " + this);
-			finished = true;
-			return;
+		for (Objective o : childObjectives) {
+			boolean finished = !o.onTick(mc);
+			if (!finished) {
+				return;
+			}
 		}
-		if (!childObjectives.get(position).onTick(mc)) {
-			position++;
-			System.out.println("Moved onto position " + position + ", which is " + (position >= childObjectives.size() ? "the end" : childObjectives.get(position).toString()));
-		}
+		finished = true;
 	}
 }

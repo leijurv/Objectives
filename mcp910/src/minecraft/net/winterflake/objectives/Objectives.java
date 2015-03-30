@@ -62,11 +62,11 @@ public class Objectives {
 			pressTime++;
 		
 		if (!main.onTick(mc)) {
-			if (lastReset + 1000 < System.currentTimeMillis()) {
-				reset();
-				lastReset = System.currentTimeMillis();
-				System.out.println("RESETTING");
-			}
+			/*
+			 * if (lastReset + 1000 < System.currentTimeMillis()) { reset();
+			 * lastReset = System.currentTimeMillis();
+			 * System.out.println("RESETTING"); }
+			 */
 		}
 		// System.out.println(isLeftClick + "," + pressTime);
 		

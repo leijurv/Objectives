@@ -81,6 +81,12 @@ public abstract class Objective implements Comparable {
 		}
 	}
 	
+	/**
+	 * Run a tick
+	 * 
+	 * @param mc
+	 * @return Did the tick actually happen? True means nonfinished
+	 */
 	public boolean onTick(Minecraft mc) {
 		if (!isFinished()) {
 			doTick(mc);
