@@ -3,6 +3,7 @@ package net.winterflake.objectives;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -74,9 +75,10 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
 	 */
 	public static ArrayList<Objective> howToGet(ItemStack item) {
 		ArrayList<Objective> possibilities = new ArrayList<Objective>();
-		if (checkFinished(Objectives.mc, item)) {
+		int available;
+		if ((available = available(item.getItem())) >= item.stackSize)
 			return possibilities;
-		}
+		item = new ItemStack(item.getItem(), item.stackSize - available);
 		List<IRecipe> l = CraftingManager.getInstance().getRecipeList();
 		for (IRecipe r : l) {
 			if (r != null && r.getRecipeOutput() != null) {
@@ -231,6 +233,8 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
 	 * @return How many items were claimed
 	 */
 	public static int onItemStack(ItemStack item) {
+		if(item == null)
+			return 0;
 		System.out.println("On pickup " + item);
 		AquireItemObjective claim = getHighestPriorityClaim(item.getItem());
 		if (claim == null || item.stackSize == 0 || !claim.stillNeeded)
@@ -245,6 +249,43 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective {
 		}
 		ItemStack stack = new ItemStack(item.getItem(), remaining, item.getMetadata());
 		return onItemStack(stack) + amountClaimed;
+	}
+	
+	public static void updateClaims(){
+		if(Minecraft.getMinecraft() == null)
+			throw new NullPointerException("Minecraft.getMinecraft() is null");
+		Set<Item> items = claimList.keySet();
+		for(Item item : items){
+			ArrayList<AquireItemObjective> claims = claimList.get(item);
+			for(int i = 0; i < claims.size(); i++){
+				if(!claims.get(i).stillNeeded)
+					claims.remove(i--);
+				else
+					claims.get(i).completion = 0;
+			}
+		}
+		if(Minecraft.getMinecraft().thePlayer == null)
+			throw new NullPointerException("thePlayer is null");
+		ItemStack[] stacks = Minecraft.getMinecraft().thePlayer.inventory.mainInventory;
+		for(ItemStack stack : stacks)
+			onItemStack(stack);
+	}
+	
+	public static int available(Item item){
+		if(item == null)
+			return Integer.MAX_VALUE;
+		updateClaims();
+		int count = 0;
+		ItemStack template = new ItemStack(item);
+		for(ItemStack stack : Minecraft.getMinecraft().thePlayer.inventory.mainInventory)
+			if(stack != null && stack.isItemEqual(template))
+				count+=stack.stackSize;
+		if(claimList.get(item) == null)
+			return count;
+		for(AquireItemObjective a : claimList.get(item))
+			if(a.stillNeeded)
+				count-=a.item.stackSize;
+		return count;
 	}
 }
 

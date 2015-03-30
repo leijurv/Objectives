@@ -37,10 +37,10 @@ public class Objectives {
 	public static long lastReset = 0;
 	
 	public static void onTick() {
-		if (main == null)
-			reset();
 		if (mc.theWorld == null || mc.thePlayer == null)
 			return;
+		if (main == null)
+			reset();
 		if (mc.currentScreen != null) {
 			wasScreen = true;
 		} else {
