@@ -139,7 +139,7 @@ public class AquireItemObjective extends HighPriorityMultiOrObjective implements
 	@Override
 	public boolean isFinished() {
 		if (position >= childObjectives.size() && !finished) {
-			position = 0;
+			//position = 0;
 		}
 		// System.out.println("Testing if aquireitemobjective for " + item +
 		// " is finished: sn:" + stillNeeded + " comp:" + completed + " comple:"

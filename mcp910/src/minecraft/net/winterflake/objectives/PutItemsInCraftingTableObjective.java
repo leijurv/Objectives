@@ -45,8 +45,8 @@ public class PutItemsInCraftingTableObjective extends Objective {
 		if (clicks.isEmpty()) {
 			calculateCliks(mc);
 		}
-		if (clickPosition % 10 == 0) {
-			int click = clickPosition / 10;
+		if (clickPosition % 3 == 0) {
+			int click = clickPosition / 3;
 			if (click >= clicks.size()) {
 				finished = true;
 				return;

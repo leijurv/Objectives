@@ -30,7 +30,6 @@ public class Objectives {
 	public static boolean isJumping = false;
 	public static boolean strafe = false;
 	public static boolean forward = false;
-	public static BlockPos craftingTable;
 	public static TopLevelObjective main = null;
 	public static boolean alr = false;
 	public static boolean wasScreen = false;
@@ -139,7 +138,7 @@ public class Objectives {
 	
 	public static void reset() {
 		
-		craftingTable = null;
+		//craftingTable = null;
 		ArrayList<Objective> dank = new ArrayList<Objective>();
 		
 		dank.add(AquireItemObjective.getAquireItemObjective(new ItemStack(Items.wooden_pickaxe, 1), Need.SINGLE));

@@ -32,23 +32,23 @@ public class DoMineBlockObjective extends BaseObjective {
 	
 	@Override
 	public void doTick(Minecraft mc) {
-		if (Objectives.craftingTable == null) {
+		if (GetToCraftingTableObjective.craftingTableLocation == null) {
 			System.out.println("Null crafting table");
 			finished = true;
 			return;
 		}
-		Objectives.isLeftClick = true;
-		
-		LookAtBlockObjective.lookAtBlock(Objectives.craftingTable, Objectives.mc.thePlayer);
-		
-		BlockPos bp = Objectives.craftingTable;
+		BlockPos bp = GetToCraftingTableObjective.craftingTableLocation;
 		IBlockState dank = mc.theWorld.getBlockState(bp);
 		if (dank.getBlock().equals(Blocks.air)) {
 			System.out.println("Finished");
 			Objectives.isLeftClick = false;
 			finished = true;
-		} else {
-			// System.out.println(dank.getBlock());
-		}
+			return;
+		} 
+		Objectives.isLeftClick = true;
+		
+		LookAtBlockObjective.lookAtBlock(GetToCraftingTableObjective.craftingTableLocation, Objectives.mc.thePlayer);
+		
+		
 	}
 }
